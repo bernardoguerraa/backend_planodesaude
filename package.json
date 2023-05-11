@@ -6,17 +6,32 @@
   "author": "Gabriel Silveira <gabrielsd@unifei.edu.br>",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev --transpile-only src/server.ts",
-    "orm:run": "ts-node-dev node_modules/.bin/typeorm"
+    "start:dev": "ts-node-dev -r tsconfig-paths/register --transpile-only --ignore-watch node_modules ./src/server.ts",
+    "orm": "ts-node node_modules/.bin/typeorm"
   },
   "dependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/node": "*",
+    "bcryptjs": "^2.4.3",
+    "celebrate": "^15.0.1",
+    "class-transformer": "^0.5.1",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "typeorm": "^0.3.15"
+    "multer": "^1.4.5-lts.1",
+    "nanoid": "^4.0.2",
+    "pg": "^8.10.0",
+    "pino": "^8.14.1",
+    "reflect-metadata": "^0.1.13",
+    "tsyringe": "^4.7.0",
+    "typeorm": "0.2.45",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.17",
+    "@types/uuid": "^9.0.1",
     "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.0.4"
   }
 }
