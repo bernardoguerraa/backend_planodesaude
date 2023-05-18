@@ -43,7 +43,7 @@ export class CreateDoctorService
     }
        
     
-    console.log("ta chegando aqui?");
+ 
             
     const treatedDoctor = { ...doctor };
         if(!existingProfile){
@@ -56,7 +56,7 @@ export class CreateDoctorService
         }else{
             treatedDoctor.profile = existingProfile;
         }
-        console.log(treatedDoctor.profile.id);
+      
         const createDoctor = await this.doctorRepository.create(treatedDoctor);
     
      
@@ -67,7 +67,7 @@ export class CreateDoctorService
             }]
         );
         
-        console.log(createDoctor);
+       
         return createDoctor;
     }
 }

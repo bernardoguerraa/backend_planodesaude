@@ -4,6 +4,7 @@ import { clientContainer } from "../../../../shared/aplication/tsyringe/containe
 import { CreateClientService } from "../service/CreateClientService";
 import { GetClientByIdService } from "../service/GetClientByIdService";
 import { GetClientsService } from "../service/GetClientsService";
+import AuthenticateService from "../../authenticate/service/AuthenticateService";
 export default class ClientController{
 
     static async createClient(
@@ -38,7 +39,29 @@ export default class ClientController{
             return response.status(201).json(client); 
          }
 
-
+         static async authenticate(
+          request: Request,
+          response: Response
+        ): Promise<Response> {
+          
+            const { email, password } = request.body;
+      
+            const authenticateBarberService = clientContainer.resolve(
+              AuthenticateService
+            );
+         
+        
+            const {agent, token}= await authenticateBarberService.execute({
+              email,
+              password,
+            });
+          
+              
+              
+         
+           
+            return response.status(200).json({ agent, token});
+        }
 
         static async getClientsById(
             request: Request,

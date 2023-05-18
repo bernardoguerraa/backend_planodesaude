@@ -19,13 +19,13 @@ export default class DoctorRepositoryTORM implements DoctorRepository {
   }
 
   async findByEmail(email: string): Promise<Doctor | undefined> {
-    const result = await this.ormRepository.createQueryBuilder('customers')
-      .innerJoinAndSelect('customers.profile', 'profile')
+    const result = await this.ormRepository.createQueryBuilder('doctors')
+      .innerJoinAndSelect('doctors.profile', 'profile')
       .leftJoinAndSelect('profile.permissions', 'permissions')
       .where('profile.email = :email AND permissions.isRevoked = false', { email })
       .getOne();
-
-    return result;
+      const doctor = await this.ormRepository.findOne({where:{id:result.id}})
+    return doctor;
   }
 
   async findDoctor(): Promise<Doctor[]> {

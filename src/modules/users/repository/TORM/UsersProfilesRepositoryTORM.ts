@@ -31,6 +31,10 @@ implements UsersProfilesRepository {
     return result;
   }
 
+  async findUser(email:string): Promise<UserProfile> {
+    const result = await this.ormRepository.findOne({where:{email:email}});
+    return result;
+  }
   async create(model: Model<UserProfile>): Promise<UserProfile> {
     let userProfile = this.ormRepository.create(model);
     userProfile = await this.ormRepository.save(userProfile);

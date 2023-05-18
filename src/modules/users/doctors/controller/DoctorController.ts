@@ -2,6 +2,7 @@ import { Request, Response} from "express";
 import Doctor from "../../../../database/entities/Doctor";
 import { doctorContainer } from "../../../../shared/aplication/tsyringe/containers/authentication";
 import { CreateDoctorService } from "../service/CreateDoctorService";
+import AuthenticateService from "../../authenticate/service/AuthenticateService";
 
 
 
@@ -39,4 +40,25 @@ export default class DoctorController{
    
            return response.status(201).json(doctor); 
         }
+
+
+        static async authenticate(
+            request: Request,
+            response: Response
+          ): Promise<Response> {
+            
+              const { email, password } = request.body;
+        
+              const authenticateBarberService = doctorContainer.resolve(
+                AuthenticateService
+              );
+           
+          
+              const {agent, token}= await authenticateBarberService.execute({
+                email,
+                password,
+              });
+             
+              return response.status(200).json({ agent, token});
+          }
 }

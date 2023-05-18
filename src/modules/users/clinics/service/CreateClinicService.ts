@@ -43,7 +43,7 @@ export class CreateClinicService
     }
        
     
-    console.log("ta chegando aqui?");
+
             
     const treatedClininc = { ...clinic };
         if(!existingProfile){
@@ -56,7 +56,7 @@ export class CreateClinicService
         }else{
             treatedClininc.profile = existingProfile;
         }
-        console.log(treatedClininc.profile.id);
+     
         const createClinic= await this.clinicRepository.create(treatedClininc);
     
      
@@ -67,7 +67,7 @@ export class CreateClinicService
             }]
         );
         
-        console.log(createClinic);
+  
         return createClinic;
     }
 }

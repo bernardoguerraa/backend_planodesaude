@@ -28,6 +28,18 @@ celebrate({
 }),ClientController.createClient
 );
 
+clientRoutes.post(
+  "/authenticate",
+  celebrate({
+    [Segments.BODY]: Joi.object({
+      email: Joi.string().email().required(),
+      password: Joi.string().required(),
+    }),
+  }),
+  ClientController.authenticate
+);
+
+
 clientRoutes.get(
   "/getClients",
   ClientController.getClients

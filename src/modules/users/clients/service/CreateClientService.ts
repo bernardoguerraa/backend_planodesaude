@@ -43,7 +43,7 @@ export class CreateClientService
     }
        
     
-    console.log("ta chegando aqui?");
+
             
     const treatedClient = { ...client };
         if(!existingProfile){
@@ -56,7 +56,7 @@ export class CreateClientService
         }else{
             treatedClient.profile = existingProfile;
         }
-        console.log(treatedClient.profile.id);
+        
         const createCliente = await this.clientRepository.create(treatedClient);
     
      
@@ -67,7 +67,7 @@ export class CreateClientService
             }]
         );
         
-        console.log(createCliente);
+      
         return createCliente;
     }
 }

@@ -18,13 +18,14 @@ export default class ClientRepositoryTORM implements ClientRepository {
   }
 
   async findByEmail(email: string): Promise<Client | undefined> {
-    const result = await this.ormRepository.createQueryBuilder('customers')
-      .innerJoinAndSelect('customers.profile', 'profile')
+    const result = await this.ormRepository.createQueryBuilder('clients')
+      .innerJoinAndSelect('clients.profile', 'profile')
       .leftJoinAndSelect('profile.permissions', 'permissions')
       .where('profile.email = :email AND permissions.isRevoked = false', { email })
       .getOne();
 
-    return result;
+    const client = await this.ormRepository.findOne({where:{id:result.id}})
+    return client;
   }
 
   async findClient(): Promise<Client[]> {

@@ -28,7 +28,16 @@ celebrate({
     })
 }),ClinicController.createClinic
 );
-
+clinicRoutes.post(
+  "/authenticate",
+  celebrate({
+    [Segments.BODY]: Joi.object({
+      email: Joi.string().email().required(),
+      password: Joi.string().required(),
+    }),
+  }),
+  ClinicController.authenticate
+);
 
 
 export default clinicRoutes;
