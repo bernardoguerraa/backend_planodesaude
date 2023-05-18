@@ -23,7 +23,7 @@ export default class ClinicRepositoryTORM implements ClinicRepository {
       .leftJoinAndSelect('profile.permissions', 'permissions')
       .where('profile.email = :email AND permissions.isRevoked = false', { email })
       .getOne();
-      //const clinic = await this.ormRepository.findOne({where:{id:result.id}})
+    
     return result;
   }
 

@@ -24,7 +24,8 @@ export default class ClientRepositoryTORM implements ClientRepository {
       .where('profile.email = :email AND permissions.isRevoked = false', { email })
       .getOne();
 
-    const client = await this.ormRepository.findOne({where:{id:result.id}})
+    console.log(result);
+    const client = await this.ormRepository.findOne({where:{id:result?.id}})
     return client;
   }
 

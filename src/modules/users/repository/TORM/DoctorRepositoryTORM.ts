@@ -24,7 +24,7 @@ export default class DoctorRepositoryTORM implements DoctorRepository {
       .leftJoinAndSelect('profile.permissions', 'permissions')
       .where('profile.email = :email AND permissions.isRevoked = false', { email })
       .getOne();
-      const doctor = await this.ormRepository.findOne({where:{id:result.id}})
+      const doctor = await this.ormRepository.findOne({where:{id:result?.id}})
     return doctor;
   }
 

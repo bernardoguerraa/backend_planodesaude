@@ -3,6 +3,7 @@ import { sign } from 'jsonwebtoken';
 import { compare } from 'bcryptjs';
 import AuthenticableEntityRepository from '../../repository/AuthenticateRepository';
 import Service from '../../../../database/repositories/Services';
+import AuthenticationError from '../../../../shared/aplication/error/AuthenticationError';
 
 
 interface AuthenticationPayload<A> {
@@ -43,17 +44,19 @@ implements Service<ServiceParams, AuthenticationPayload<T>> {
     const existingAgent = await this.repository.findByEmail(email);
 
     if (!existingAgent) {
-      throw new Error ('Incorrect email/password combination')
+      throw new AuthenticationError('Incorrect email/password combination');
     }
 
     const doesPasswordMatch = await compare(
       password,
       existingAgent.profile.password
     );
+    
 
     if (!doesPasswordMatch) {
-        throw new Error ('Incorrect email/password combination')
+      throw new AuthenticationError('Incorrect email/password combination');
     }
+
 
     const SECRET = process.env.APP_SECRET || '';
     const EXPIRATION = process.env.EXPIRATION_TIME || '1d';
