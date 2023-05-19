@@ -1,92 +1,88 @@
-import { Request, Response} from "express";
+import { Request, Response } from "express";
 import Client from "../../../../database/entities/Client";
 import { clientContainer } from "../../../../shared/aplication/tsyringe/containers/authentication";
 import { CreateClientService } from "../service/CreateClientService";
 import { GetClientByIdService } from "../service/GetClientByIdService";
 import { GetClientsService } from "../service/GetClientsService";
 import AuthenticateService from "../../authenticate/service/AuthenticateService";
-export default class ClientController{
+export default class ClientController {
+  static async createClient(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const {
+      email,
+      password,
+      addresses,
+      cpf,
+      rg,
+      dateOfBirth,
+      phoneNumber,
+      name,
+    } = request.body;
+    const createClientService = clientContainer.resolve(CreateClientService);
 
-    static async createClient(
-         request:Request,
-         response:Response):Promise<Response>{
+    let client = await createClientService.execute({
+      profile: {
+        name,
+        email,
+        password,
+        dateOfBirth,
+        phoneNumber,
+        cpf,
+      },
+      addresses,
+    } as unknown as Client);
 
-            const {email, password, addresses,
-                   cpf, rg, dateOfBirth, phoneNumber
-                   , name} = request.body;
-            const createClientService = clientContainer.resolve(CreateClientService);
+    if (client instanceof Error) {
+      return response.status(400).json(client.message);
+    }
 
-            let client = await createClientService.execute
-            ({
-                profile: {
-                    name,
-                    email,
-                    password,
-                    dateOfBirth,
-                    phoneNumber,
-                    cpf,
-                },
-                addresses
-            } as unknown as Client);
-           
-            
-            if (client instanceof Error){
+    return response.status(201).json(client);
+  }
 
-                return response.status(400).json(client.message);
-    
-            }
-    
-            return response.status(201).json(client); 
-         }
+  static async authenticate(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { email, password } = request.body;
 
-         static async authenticate(
-          request: Request,
-          response: Response
-        ): Promise<Response> {
-          
-            const { email, password } = request.body;
-      
-            const authenticateBarberService = clientContainer.resolve(
-              AuthenticateService
-            );
-         
-        
-            const {agent, token}= await authenticateBarberService.execute({
-              email,
-              password,
-            });
-          
-              
-              
-         
-           
-            return response.status(200).json({ agent, token});
-        }
+    const authenticateBarberService =
+      clientContainer.resolve(AuthenticateService);
 
-        static async getClientsById(
-            request: Request,
-            response: Response
-          ): Promise<Response> {
-            const { id } = request.params;
-        
-            const getClientsService = clientContainer.resolve(GetClientByIdService);
-        
-            const client = await getClientsService.execute({ id });
-        
-            return response.status(200).json(client);
-          }
+    const result = await authenticateBarberService.execute({
+      email,
+      password,
+    });
 
-          static async getClients(
-            request: Request,
-            response: Response
-          ): Promise<Response> {
-         
+    if (result instanceof Error) {
+      return response.status(400).json(result.message);
+    }
 
-        
-            const getClientsService = clientContainer.resolve(GetClientsService);
-        
-            const clients = await getClientsService.execute();
-        
-            return response.status(200).json(clients);
-          }
+    return response.status(200).json(result);
+  }
+
+  static async getClientsById(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id } = request.params;
+
+    const getClientsService = clientContainer.resolve(GetClientByIdService);
+
+    const client = await getClientsService.execute({ id });
+
+    return response.status(200).json(client);
+  }
+
+  static async getClients(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const getClientsService = clientContainer.resolve(GetClientsService);
+
+    const clients = await getClientsService.execute();
+
+    return response.status(200).json(clients);
+  }
 }

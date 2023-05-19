@@ -1,6 +1,6 @@
 import AppGeneralError, { AppError } from "./AppError";
 
-export default class AuthenticationError extends AppGeneralError {
+export default class BusinessRuleViolationError extends AppGeneralError {
   public readonly httpCode: number;
 
   public readonly internalCode: string;

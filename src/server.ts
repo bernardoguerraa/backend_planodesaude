@@ -1,16 +1,16 @@
-import "reflect-metadata"; 
+import "reflect-metadata";
+import "express-async-errors";
 import initialize from "./shared/aplication/tsyringe";
-import express from 'express';
-import cors from 'cors';
+import express from "express";
+import cors from "cors";
 import createAplicationRouter from "./routes";
+
 import "./database";
 
 const app = express();
- initialize();
+initialize();
 app.use(express.json());
-app.use(cors({origin:'*'}));
+app.use(cors({ origin: "*" }));
 app.use(createAplicationRouter());
 
-
-
-app.listen(4020,()=>console.log('server up'));
+app.listen(4020, () => console.log("server up"));

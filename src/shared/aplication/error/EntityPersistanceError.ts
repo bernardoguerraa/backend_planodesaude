@@ -1,6 +1,6 @@
 import AppGeneralError, { AppError } from "./AppError";
 
-export default class AuthenticationError extends AppGeneralError {
+export default class EntityPersistanceError extends AppGeneralError {
   public readonly httpCode: number;
 
   public readonly internalCode: string;
@@ -10,7 +10,7 @@ export default class AuthenticationError extends AppGeneralError {
   constructor(message: string, options?: AppError) {
     super(message);
     this.httpCode = 400;
-    this.internalCode = "auth-error";
+    this.internalCode = "persistance-error";
     this.content = options?.content;
   }
 }
