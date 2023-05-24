@@ -16,14 +16,23 @@ export default class ClinicRepositoryTORM implements ClinicRepository {
 
     return customers;
   }
+  async findClinicById(clinicId: string): Promise<Clinic> {
+    const customers = await this.ormRepository.findOne({
+      where: { id: clinicId },
+    });
+    return customers;
+  }
 
   async findByEmail(email: string): Promise<Clinic | undefined> {
-    const result = await this.ormRepository.createQueryBuilder('clinics')
-      .innerJoinAndSelect('clinics.profile', 'profile')
-      .leftJoinAndSelect('profile.permissions', 'permissions')
-      .where('profile.email = :email AND permissions.isRevoked = false', { email })
+    const result = await this.ormRepository
+      .createQueryBuilder("clinics")
+      .innerJoinAndSelect("clinics.profile", "profile")
+      .leftJoinAndSelect("profile.permissions", "permissions")
+      .where("profile.email = :email AND permissions.isRevoked = false", {
+        email,
+      })
       .getOne();
-    
+
     return result;
   }
 
@@ -40,7 +49,7 @@ export default class ClinicRepositoryTORM implements ClinicRepository {
   }
 
   updateById(id: string, partialModel: Clinic): Promise<void> {
-    throw new Error('Method not implemented.');
+    throw new Error("Method not implemented.");
   }
 
   async delete(id: string): Promise<void> {

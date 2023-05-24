@@ -3,6 +3,7 @@ import { errors } from "celebrate";
 import clientRoutes from "./modules/users/clients/routes/client.routes";
 import doctorRoutes from "./modules/users/doctors/routes/doctor.routes";
 import clinicRoutes from "./modules/users/clinics/routes/clinic.routes";
+import associateRoutes from "./modules/services/associates/routes/associates.routes";
 import handleError from "./shared/middlewares/handleException";
 import AppGeneralError from "./shared/aplication/error/AppError";
 export default function createAplicationRouter(): Router {
@@ -11,6 +12,7 @@ export default function createAplicationRouter(): Router {
   appRoutes.use("/clients", clientRoutes);
   appRoutes.use("/doctors", doctorRoutes);
   appRoutes.use("/clinics", clinicRoutes);
+  appRoutes.use("/associates", associateRoutes);
   appRoutes.use(errors());
   appRoutes.use(handleError);
   return appRoutes;

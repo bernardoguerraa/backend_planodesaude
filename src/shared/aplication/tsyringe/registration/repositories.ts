@@ -10,30 +10,35 @@ import DoctorRepository from "../../../../modules/users/repository/DoctorReposit
 import DoctorRepositoryTORM from "../../../../modules/users/repository/TORM/DoctorRepositoryTORM";
 import ClinicRepository from "../../../../modules/users/repository/ClinicRepository";
 import ClinicRepositoryTORM from "../../../../modules/users/repository/TORM/ClinicRepositoryTORM";
-
+import AssociateRepository from "../../../../modules/services/repository/AssociateRepository";
+import AssociateRepositoryTORM from "../../../../modules/services/repository/TORM/AssociateRepositoryTORM";
 export default function registerRepositories(): void {
-
-container.register<ClientRepository>(
-    'ClientRepository',
+  container.register<ClientRepository>(
+    "ClientRepository",
     ClientRepositoryTORM
-);
+  );
 
-container.register<DoctorRepository>(
-    'DoctorRepository',
+  container.register<DoctorRepository>(
+    "DoctorRepository",
     DoctorRepositoryTORM
-);
+  );
 
-container.register<ClinicRepository>(
-    'ClinicRepository',
+  container.register<ClinicRepository>(
+    "ClinicRepository",
     ClinicRepositoryTORM
-);
-container.register<UserPermissionsRepository>(
-    'PermissionsRepository',
+  );
+  container.register<UserPermissionsRepository>(
+    "PermissionsRepository",
     UserPermissionsRepositoryTORM
-);
+  );
 
-container.register<UsersProfilesRepository>(
-    'UsersProfilesRepository',
+  container.register<UsersProfilesRepository>(
+    "UsersProfilesRepository",
     UsersProfilesRepositoryTORM
-);
+  );
+
+  container.register<AssociateRepository>(
+    "AssociateRepository",
+    AssociateRepositoryTORM
+  );
 }

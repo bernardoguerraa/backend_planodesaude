@@ -4,6 +4,9 @@ import { clientContainer } from "../../../../shared/aplication/tsyringe/containe
 import { CreateClientService } from "../service/CreateClientService";
 import { GetClientByIdService } from "../service/GetClientByIdService";
 import { GetClientsService } from "../service/GetClientsService";
+import { UpdateClientsService } from "../service/UpdadeClientService";
+import { UpdateClientAddressService } from "../service/UpdateClientAddressService";
+import { UpdateClientSecretPassService } from "../service/UpdateClientSecretpass";
 import AuthenticateService from "../../authenticate/service/AuthenticateService";
 export default class ClientController {
   static async createClient(
@@ -84,5 +87,55 @@ export default class ClientController {
     const clients = await getClientsService.execute();
 
     return response.status(200).json(clients);
+  }
+
+  static async updateClient(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id, name, phoneNumber, dateOfBirth, cpf } = request.body;
+    const updateClientsService = clientContainer.resolve(UpdateClientsService);
+    const client = await updateClientsService.execute({
+      id,
+      name,
+      phoneNumber,
+      dateOfBirth,
+      cpf,
+    });
+    return response.status(200).json(client);
+  }
+
+  static async updateClientSecretPass(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id, password } = request.body;
+    const updateClientsService = clientContainer.resolve(
+      UpdateClientSecretPassService
+    );
+    const client = await updateClientsService.execute({
+      id,
+      password,
+    });
+    return response.status(200).json(client);
+  }
+
+  static async updateClientAddress(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id, streetName, number, neighbourhood, city, state } = request.body;
+    const updateClientsService = clientContainer.resolve(
+      UpdateClientAddressService
+    );
+    const client = await updateClientsService.execute({
+      id,
+      streetName,
+      number,
+      neighbourhood,
+      city,
+      state,
+    });
+    return response.status(200).json(client);
   }
 }

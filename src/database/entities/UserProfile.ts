@@ -1,16 +1,19 @@
-
 import {
-  Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn
-} from 'typeorm';
-import Client from './Client';
-import Doctor from './Doctor';
-import Clinic from './Clinic';
-import UserPermission from './UserPermission';
-import {v4 as uuid} from 'uuid';
+  Column,
+  Entity,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import Client from "./Client";
+import Doctor from "./Doctor";
+import Clinic from "./Clinic";
+import UserPermission from "./UserPermission";
+import { v4 as uuid } from "uuid";
 
-@Entity('users_profiles')
+@Entity("users_profiles")
 export default class UserProfile {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @Column()
@@ -22,7 +25,10 @@ export default class UserProfile {
   @Column()
   cpf: string;
 
-  @Column({ name: 'phone_number' })
+  @Column({ name: "date_of_birth" })
+  dateOfBirth: Date;
+
+  @Column({ name: "phone_number" })
   phoneNumber: number;
 
   @Column()
@@ -37,16 +43,13 @@ export default class UserProfile {
   @OneToOne(() => Clinic, (clinic) => clinic.profile)
   clinic: Clinic;
 
-  @OneToMany(
-    () => UserPermission,
-    (userPermission) => userPermission.profile,
-    { eager: true }
-  )
+  @OneToMany(() => UserPermission, (userPermission) => userPermission.profile, {
+    eager: true,
+  })
   permissions: UserPermission[];
 
-
-  constructor(){
-    if(!this.id){
+  constructor() {
+    if (!this.id) {
       this.id = uuid();
     }
   }
