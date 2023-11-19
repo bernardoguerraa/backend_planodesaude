@@ -11,7 +11,8 @@ clientRoutes.post(
       name: Joi.string().required(),
       email: Joi.string().email().required(),
       password: Joi.string().required(),
-      cpf: Joi.number().optional(),
+      cpf_cnpj: Joi.number().optional(),
+      rg: Joi.string().optional(),
       dateOfBirth: Joi.date().optional(),
       phoneNumber: Joi.number().optional(),
       addresses: Joi.array().items(
@@ -61,6 +62,8 @@ clientRoutes.put(
       cpf: Joi.number().optional(),
       dateOfBirth: Joi.date().optional(),
       phoneNumber: Joi.number().optional(),
+      avatar: Joi.string().optional(),
+      rg: Joi.string().optional(),
     }),
   }),
   ClientController.updateClient

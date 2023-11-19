@@ -17,7 +17,7 @@ export default class ClientController {
       email,
       password,
       addresses,
-      cpf,
+      cpf_cnpj,
       rg,
       dateOfBirth,
       phoneNumber,
@@ -32,7 +32,8 @@ export default class ClientController {
         password,
         dateOfBirth,
         phoneNumber,
-        cpf,
+        cpf_cnpj,
+        rg,
       },
       addresses,
     } as unknown as Client);
@@ -93,7 +94,8 @@ export default class ClientController {
     request: Request,
     response: Response
   ): Promise<Response> {
-    const { id, name, phoneNumber, dateOfBirth, cpf } = request.body;
+    const { id, name, phoneNumber, dateOfBirth, cpf, avatar, rg } =
+      request.body;
     const updateClientsService = clientContainer.resolve(UpdateClientsService);
     const client = await updateClientsService.execute({
       id,
@@ -101,6 +103,8 @@ export default class ClientController {
       phoneNumber,
       dateOfBirth,
       cpf,
+      avatar,
+      rg,
     });
     return response.status(200).json(client);
   }

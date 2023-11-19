@@ -16,6 +16,21 @@ export default class ClientRepositoryTORM implements ClientRepository {
 
     return customers;
   }
+  async findByCpf(cpf: number): Promise<Client> {
+    const result = await this.ormRepository
+      .createQueryBuilder("clients")
+      .innerJoinAndSelect("clients.profile", "profile")
+      .leftJoinAndSelect("profile.permissions", "permissions")
+      .where("profile.cpf = :cpf AND permissions.isRevoked = false", {
+        cpf,
+      })
+      .getOne();
+
+    const client = await this.ormRepository.findOne({
+      where: { id: result?.id },
+    });
+    return client;
+  }
 
   async findByEmail(email: string): Promise<Client | undefined> {
     const result = await this.ormRepository
@@ -27,7 +42,6 @@ export default class ClientRepositoryTORM implements ClientRepository {
       })
       .getOne();
 
-    console.log(result);
     const client = await this.ormRepository.findOne({
       where: { id: result?.id },
     });
@@ -60,10 +74,14 @@ export default class ClientRepositoryTORM implements ClientRepository {
     name: string,
     cpf: string,
     dateOfBirth: Date,
-    phoneNumber: number
+    phoneNumber: number,
+    avatar: string,
+    rg: string
   ): Promise<Client> {
+    partialModel.profile.avatar = avatar ? avatar : partialModel.profile.avatar;
     partialModel.profile.name = name ? name : partialModel.profile.name;
-    partialModel.profile.cpf = cpf ? cpf : partialModel.profile.cpf;
+    partialModel.profile.cpf_cnpj = cpf ? cpf : partialModel.profile.cpf_cnpj;
+    partialModel.profile.rg = rg ? rg : partialModel.profile.rg;
     partialModel.profile.dateOfBirth = dateOfBirth
       ? dateOfBirth
       : partialModel.profile.dateOfBirth;
@@ -82,7 +100,6 @@ export default class ClientRepositoryTORM implements ClientRepository {
     city: string,
     state: string
   ): Promise<Client> {
-    console.log(partialModel.addresses[0]);
     partialModel.addresses[0].streetName = streetName
       ? streetName
       : partialModel.addresses[0].streetName;

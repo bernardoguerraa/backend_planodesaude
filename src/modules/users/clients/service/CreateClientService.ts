@@ -34,7 +34,18 @@ export class CreateClientService implements Service<Model<Client>, Client> {
     if (existingProfile) {
       throw new EntityPersistanceError("Este e-mail ja esta cadastrado!");
     }
-
+    const [existingPhoneNumber] = await this.usersProfilesRepository.find({
+      phoneNumber: client.profile.phoneNumber,
+    });
+    if (existingPhoneNumber) {
+      throw new EntityPersistanceError("Este numero ja esta cadastrado!");
+    }
+    const [existingCPF] = await this.usersProfilesRepository.find({
+      cpf_cnpj: client.profile.cpf_cnpj,
+    });
+    if (existingCPF) {
+      throw new EntityPersistanceError("Este cpf ja esta cadastrado!");
+    }
     const treatedClient = { ...client };
     if (!existingProfile) {
       const encryptedPassword = await createHash.generateHash(

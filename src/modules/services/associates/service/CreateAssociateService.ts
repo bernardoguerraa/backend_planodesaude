@@ -6,7 +6,6 @@ import Associate from "../../../../database/entities/Associate";
 import Clinic from "../../../../database/entities/Clinic";
 import AssociateRepository from "../../repository/AssociateRepository";
 import ClinicRepository from "../../../users/repository/ClinicRepository";
-import { response } from "express";
 
 interface CreateAssociateServiceParams {
   clinicId: string;

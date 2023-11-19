@@ -12,7 +12,9 @@ interface ClientRepository
     name: string,
     cpf: string,
     dateOfBirth: Date,
-    phoneNumber: number
+    phoneNumber: number,
+    avatar: string,
+    rg: string
   ): Promise<Client>;
   updateAddress(
     partialModel: Client,

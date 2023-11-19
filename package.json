@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start:dev": "ts-node-dev -r tsconfig-paths/register --transpile-only --ignore-watch node_modules ./src/server.ts",
-    "orm": "ts-node node_modules/.bin/typeorm"
+    "orm": "ts-node node_modules/typeorm/cli.js"
   },
   "dependencies": {
     "@types/bcryptjs": "^2.4.2",

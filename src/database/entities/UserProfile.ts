@@ -22,8 +22,8 @@ export default class UserProfile {
   @Column()
   email: string;
 
-  @Column()
-  cpf: string;
+  @Column({ name: "cpf_cnpj" })
+  cpf_cnpj: string;
 
   @Column({ name: "date_of_birth" })
   dateOfBirth: Date;
@@ -33,6 +33,12 @@ export default class UserProfile {
 
   @Column()
   password: string;
+
+  @Column()
+  rg: string;
+
+  @Column()
+  avatar: string;
 
   @OneToOne(() => Client, (client) => client.profile)
   client: Client;

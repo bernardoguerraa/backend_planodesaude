@@ -7,8 +7,10 @@ interface UpdateClientsServiceParams {
   id: string;
   name: string;
   cpf: string;
+  rg: string;
   phoneNumber: number;
   dateOfBirth: Date;
+  avatar: string;
 }
 
 @injectable()
@@ -28,6 +30,8 @@ export class UpdateClientsService
     cpf,
     dateOfBirth,
     phoneNumber,
+    avatar,
+    rg,
   }: UpdateClientsServiceParams): Promise<Client> {
     const existingProfile = await this.clientRepository.findById(id);
     if (!existingProfile) {
@@ -39,7 +43,9 @@ export class UpdateClientsService
       name,
       cpf,
       dateOfBirth,
-      phoneNumber
+      phoneNumber,
+      avatar,
+      rg
     );
     console.log(updateClient);
     return updateClient;

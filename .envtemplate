@@ -1,7 +1,7 @@
 TYPEORM_CONNECTION= //tipo do banco de dados
 TYPEORM_HOST= //onde o banco ta rodando
 TYPEORM_USERNAME=  //nome do usaurio dono do banco
-TYPEORM_PASSWORD= //senha
+TYPEORM_PASSWORD= //senha do banco
 TYPEORM_DATABASE= //nome do banco
 TYPEORM_PORT=     // porta do servidor do banco
 TYPEORM_MIGRATIONS=src/database/migrations/*.ts
