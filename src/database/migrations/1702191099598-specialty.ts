@@ -2,15 +2,14 @@ import {
   MigrationInterface,
   QueryRunner,
   Table,
-  TableColumn,
   TableForeignKey,
 } from "typeorm";
 
-export class CreateDoctorTable1683126836468 implements MigrationInterface {
+export class specialty1702191099598 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: "doctors",
+        name: "specialty",
         columns: [
           {
             name: "id",
@@ -18,17 +17,9 @@ export class CreateDoctorTable1683126836468 implements MigrationInterface {
             isPrimary: true,
           },
           {
-            name: "regional_council_number",
+            name: "name",
             type: "varchar",
-            length: "20",
             isUnique: true,
-            isNullable: true,
-          },
-          {
-            name: "regional_council",
-            type: "varchar",
-            length: "50",
-            isNullable: true,
           },
         ],
       })
@@ -36,6 +27,6 @@ export class CreateDoctorTable1683126836468 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable("doctors");
+    await queryRunner.dropTable("specialty");
   }
 }

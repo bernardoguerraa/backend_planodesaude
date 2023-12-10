@@ -1,14 +1,19 @@
 import {
   Column,
   Entity,
+  ManyToMany,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
+  JoinColumn,
+  JoinTable,
 } from "typeorm";
 import Client from "./Client";
 import Doctor from "./Doctor";
 import Clinic from "./Clinic";
 import UserPermission from "./UserPermission";
+import ProviderSpecialty from "./ProviderSpecialty";
+
 import { v4 as uuid } from "uuid";
 
 @Entity("users_profiles")
@@ -53,6 +58,12 @@ export default class UserProfile {
     eager: true,
   })
   permissions: UserPermission[];
+
+  @OneToMany(
+    () => ProviderSpecialty,
+    (providerSpecialty) => providerSpecialty.profile
+  )
+  providerSpecialty: ProviderSpecialty[];
 
   constructor() {
     if (!this.id) {

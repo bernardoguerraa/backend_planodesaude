@@ -9,7 +9,6 @@ interface AuthenticableEntityRepository<E> {
    * @returns an entity if the email exists, `undefined` otherwise
    */
   findByEmail(email: string): Promise<E | undefined>;
-  findByCpf(cpf: number): Promise<E | undefined>;
 }
 
 export default AuthenticableEntityRepository;

@@ -17,9 +17,6 @@ export default class Clinic {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column({ name: "specialty", array: true, default: [] })
-  specialty: string;
-
   @ManyToMany(() => Addresses, (Addresses) => Addresses.clinic, {
     eager: true,
     cascade: ["insert"],

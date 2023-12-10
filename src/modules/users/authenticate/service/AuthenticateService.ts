@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 import { sign } from "jsonwebtoken";
 import { compare } from "bcryptjs";
-import AuthenticableEntityRepository from "../../repository/AuthenticateRepository";
+import AuthenticableEntityRepository from "../../../../database/repositories/AutheticateRepository";
 import Service from "../../../../database/repositories/Services";
 import AuthenticationError from "../../../../shared/aplication/error/AuthenticationError";
 

@@ -4,31 +4,33 @@ import DoctorController from "../controller/DoctorController";
 
 const doctorRoutes = Router();
 
-
-doctorRoutes.post("/register",
-celebrate({
+doctorRoutes.post(
+  "/register",
+  celebrate({
     [Segments.BODY]: Joi.object({
-        name: Joi.string().required(),
-        email: Joi.string().email().required(),
-        password: Joi.string().required(),
-        cpf: Joi.number().optional(),
-        dateOfBirth: Joi.date().optional(),
-        phoneNumber: Joi.number().optional(),
-        regionalCouncilNumber:Joi.number().required(),
-        regionalCouncil: Joi.string().required(),
-        specialty: Joi.array().required(),
-        addresses: Joi.array().items(
-            Joi.object({
-              streetName: Joi.string().optional(),
-              number: Joi.number().optional(),
-              adjunct: Joi.string().optional(),
-              neighbourhood: Joi.string().optional(),
-              city: Joi.string().optional(),
-              state: Joi.string().optional(),
-            })
-          ),
-    })
-}),DoctorController.createDoctor
+      name: Joi.string().required(),
+      email: Joi.string().email().required(),
+      password: Joi.string().required(),
+      rg: Joi.string().required(),
+      cpf_cnpj: Joi.number().optional(),
+      dateOfBirth: Joi.date().optional(),
+      phoneNumber: Joi.number().optional(),
+      regionalCouncilNumber: Joi.number().required(),
+      regionalCouncil: Joi.string().required(),
+      specialty: Joi.array().required(),
+      addresses: Joi.array().items(
+        Joi.object({
+          streetName: Joi.string().optional(),
+          number: Joi.number().optional(),
+          adjunct: Joi.string().optional(),
+          neighbourhood: Joi.string().optional(),
+          city: Joi.string().optional(),
+          state: Joi.string().optional(),
+        })
+      ),
+    }),
+  }),
+  DoctorController.createDoctor
 );
 
 doctorRoutes.post(
@@ -41,9 +43,5 @@ doctorRoutes.post(
   }),
   DoctorController.authenticate
 );
-
-
-
-
 
 export default doctorRoutes;

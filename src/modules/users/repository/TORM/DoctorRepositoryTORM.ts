@@ -19,12 +19,17 @@ export default class DoctorRepositoryTORM implements DoctorRepository {
   }
 
   async findByEmail(email: string): Promise<Doctor | undefined> {
-    const result = await this.ormRepository.createQueryBuilder('doctors')
-      .innerJoinAndSelect('doctors.profile', 'profile')
-      .leftJoinAndSelect('profile.permissions', 'permissions')
-      .where('profile.email = :email AND permissions.isRevoked = false', { email })
+    const result = await this.ormRepository
+      .createQueryBuilder("doctors")
+      .innerJoinAndSelect("doctors.profile", "profile")
+      .leftJoinAndSelect("profile.permissions", "permissions")
+      .where("profile.email = :email AND permissions.isRevoked = false", {
+        email,
+      })
       .getOne();
-      const doctor = await this.ormRepository.findOne({where:{id:result?.id}})
+    const doctor = await this.ormRepository.findOne({
+      where: { id: result?.id },
+    });
     return doctor;
   }
 
@@ -41,7 +46,7 @@ export default class DoctorRepositoryTORM implements DoctorRepository {
   }
 
   updateById(id: string, partialModel: Doctor): Promise<void> {
-    throw new Error('Method not implemented.');
+    throw new Error("Method not implemented.");
   }
 
   async delete(id: string): Promise<void> {

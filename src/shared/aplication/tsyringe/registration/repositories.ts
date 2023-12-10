@@ -12,6 +12,10 @@ import ClinicRepository from "../../../../modules/users/repository/ClinicReposit
 import ClinicRepositoryTORM from "../../../../modules/users/repository/TORM/ClinicRepositoryTORM";
 import AssociateRepository from "../../../../modules/services/repository/AssociateRepository";
 import AssociateRepositoryTORM from "../../../../modules/services/repository/TORM/AssociateRepositoryTORM";
+import SpecialtyRepository from "../../../../modules/users/repository/SpecialtyRepository";
+import SpecialtyRepositoryTORM from "../../../../modules/users/repository/TORM/SpecialtyRepositoryTORM";
+import ProviderSpecialtyRepository from "../../../../modules/users/repository/ProviderSpecialtyRepository";
+import ProviderSpecialtyRepositoryTORM from "../../../../modules/users/repository/TORM/ProviderSpecialtyRepositoryTORM";
 export default function registerRepositories(): void {
   container.register<ClientRepository>(
     "ClientRepository",
@@ -40,5 +44,15 @@ export default function registerRepositories(): void {
   container.register<AssociateRepository>(
     "AssociateRepository",
     AssociateRepositoryTORM
+  );
+
+  container.register<SpecialtyRepository>(
+    "SpecialtyRepository",
+    SpecialtyRepositoryTORM
+  );
+
+  container.register<ProviderSpecialtyRepository>(
+    "ProviderSpecialtyRepository",
+    ProviderSpecialtyRepositoryTORM
   );
 }

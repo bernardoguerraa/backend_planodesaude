@@ -22,7 +22,6 @@ export default class ClinicRepositoryTORM implements ClinicRepository {
     });
     return customers;
   }
-
   async findByEmail(email: string): Promise<Clinic | undefined> {
     const result = await this.ormRepository
       .createQueryBuilder("clinics")
