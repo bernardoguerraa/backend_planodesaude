@@ -4,29 +4,31 @@ import ClinicController from "../controller/ClinicController";
 
 const clinicRoutes = Router();
 
-
-clinicRoutes.post("/register",
-celebrate({
+clinicRoutes.post(
+  "/register",
+  celebrate({
     [Segments.BODY]: Joi.object({
-        name: Joi.string().required(),
-        email: Joi.string().email().required(),
-        password: Joi.string().required(),
-        cpf: Joi.number().optional(),
-        dateOfBirth: Joi.date().optional(),
-        phoneNumber: Joi.number().optional(),
-        specialty: Joi.array().required(),
-        addresses: Joi.array().items(
-            Joi.object({
-              streetName: Joi.string().optional(),
-              number: Joi.number().optional(),
-              adjunct: Joi.string().optional(),
-              neighbourhood: Joi.string().optional(),
-              city: Joi.string().optional(),
-              state: Joi.string().optional(),
-            })
-          ),
-    })
-}),ClinicController.createClinic
+      name: Joi.string().required(),
+      email: Joi.string().email().required(),
+      password: Joi.string().required(),
+      rg: Joi.string().optional(),
+      cpf_cnpj: Joi.number().optional(),
+      dateOfBirth: Joi.date().optional(),
+      phoneNumber: Joi.number().optional(),
+      specialty: Joi.array().required(),
+      addresses: Joi.array().items(
+        Joi.object({
+          streetName: Joi.string().optional(),
+          number: Joi.number().optional(),
+          adjunct: Joi.string().optional(),
+          neighbourhood: Joi.string().optional(),
+          city: Joi.string().optional(),
+          state: Joi.string().optional(),
+        })
+      ),
+    }),
+  }),
+  ClinicController.createClinic
 );
 clinicRoutes.post(
   "/authenticate",
@@ -38,6 +40,5 @@ clinicRoutes.post(
   }),
   ClinicController.authenticate
 );
-
 
 export default clinicRoutes;

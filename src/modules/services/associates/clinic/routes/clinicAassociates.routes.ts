@@ -1,10 +1,10 @@
 import { celebrate, Joi, Segments } from "celebrate";
 import { Router } from "express";
-import AssociateController from "../controller/AssociateController";
+import ClinicAssociateController from "../controller/AssociateController";
 
-const associateRoutes = Router();
+const clinicAssociateRoutes = Router();
 
-associateRoutes.post(
+clinicAssociateRoutes.post(
   "/register",
   celebrate({
     [Segments.BODY]: Joi.object({
@@ -17,7 +17,7 @@ associateRoutes.post(
       specialty: Joi.array().required(),
     }),
   }),
-  AssociateController.createAssociate
+  ClinicAssociateController.createAssociate
 );
 
-export default associateRoutes;
+export default clinicAssociateRoutes;

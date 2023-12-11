@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import Associate from "../../../../database/entities/Associate";
+import Associate from "../../../../../database/entities/ClinicAssociate";
 import { container } from "tsyringe";
 import CreateAssociateService from "../service/CreateAssociateService";
 
-export default class AssociateController {
+export default class ClinicAssociateController {
   static async createAssociate(
     request: Request,
     response: Response

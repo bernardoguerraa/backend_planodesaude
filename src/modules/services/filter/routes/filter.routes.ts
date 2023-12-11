@@ -13,4 +13,14 @@ filterRoutes.post(
   }),
   FilterController.getBySpecialty
 );
+
+filterRoutes.post(
+  "/getProfileByEmail",
+  celebrate({
+    [Segments.BODY]: Joi.object({
+      userEmail: Joi.string().required(),
+    }),
+  }),
+  FilterController.getProfileByEmail
+);
 export default filterRoutes;

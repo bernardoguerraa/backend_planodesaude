@@ -1,18 +1,20 @@
 import { Repository, getRepository } from "typeorm";
-import AssociateRepository from "../AssociateRepository";
+import ClinicAssociateRepository from "../ClinicAssociateRepository";
 import Filters from "../../../../database/repositories/Filter";
 import Model from "../../../../database/repositories/Model";
-import Associate from "../../../../database/entities/Associate";
+import ClinicAssociate from "../../../../database/entities/ClinicAssociate";
 import P from "pino";
 
-export default class AssociateRepositoryTORM implements AssociateRepository {
-  private ormRepository: Repository<Associate>;
+export default class ClinicAssociateRepositoryTORM
+  implements ClinicAssociateRepository
+{
+  private ormRepository: Repository<ClinicAssociate>;
 
   constructor() {
-    this.ormRepository = getRepository(Associate);
+    this.ormRepository = getRepository(ClinicAssociate);
   }
 
-  async find(filters: Filters<Associate>): Promise<Associate[]> {
+  async find(filters: Filters<ClinicAssociate>): Promise<ClinicAssociate[]> {
     const repositories = await this.ormRepository.find({
       where: filters,
     });
@@ -20,7 +22,7 @@ export default class AssociateRepositoryTORM implements AssociateRepository {
     return repositories;
   }
 
-  async findById(id: string): Promise<Associate> {
+  async findById(id: string): Promise<ClinicAssociate> {
     const [findAssocaiteServiceById] = await this.ormRepository.find({
       where: {
         id: id,
@@ -30,18 +32,20 @@ export default class AssociateRepositoryTORM implements AssociateRepository {
     return findAssocaiteServiceById;
   }
 
-  async create(model: Model<Associate>): Promise<Associate> {
+  async create(model: Model<ClinicAssociate>): Promise<ClinicAssociate> {
     let associate = this.ormRepository.create(model);
     associate = await this.ormRepository.save(associate);
 
     return associate;
   }
 
-  async updateAssociate(partialModel: Associate): Promise<Associate> {
+  async updateAssociate(
+    partialModel: ClinicAssociate
+  ): Promise<ClinicAssociate> {
     return partialModel;
   }
 
-  async updateById(id: string, partialModel: Associate): Promise<void> {
+  async updateById(id: string, partialModel: ClinicAssociate): Promise<void> {
     await this.ormRepository.update(id, partialModel);
   }
 

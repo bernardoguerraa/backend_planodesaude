@@ -1,11 +1,11 @@
 import { inject, injectable } from "tsyringe";
-import BusinessRuleViolationError from "../../../../shared/aplication/error/BusinessRuleViolationError";
-import AuthenticationError from "../../../../shared/aplication/error/AuthenticationError";
-import Service from "../../../../database/repositories/Services";
-import Associate from "../../../../database/entities/Associate";
-import Clinic from "../../../../database/entities/Clinic";
-import AssociateRepository from "../../repository/AssociateRepository";
-import ClinicRepository from "../../../users/repository/ClinicRepository";
+import BusinessRuleViolationError from "../../../../../shared/aplication/error/BusinessRuleViolationError";
+import AuthenticationError from "../../../../../shared/aplication/error/AuthenticationError";
+import Service from "../../../../../database/repositories/Services";
+import ClinicAssociate from "../../../../../database/entities/ClinicAssociate";
+import Clinic from "../../../../../database/entities/Clinic";
+import ClinicAssociateRepository from "../../../repository/ClinicAssociateRepository";
+import ClinicRepository from "../../../../users/repository/ClinicRepository";
 
 interface CreateAssociateServiceParams {
   clinicId: string;
@@ -18,14 +18,14 @@ interface CreateAssociateServiceParams {
 
 @injectable()
 export default class CreateAssociateService
-  implements Service<CreateAssociateServiceParams, Associate>
+  implements Service<CreateAssociateServiceParams, ClinicAssociate>
 {
-  private associateRepository: AssociateRepository;
+  private associateRepository: ClinicAssociateRepository;
   private clinicRepository: ClinicRepository;
 
   constructor(
-    @inject("AssociateRepository")
-    associateRepository: AssociateRepository,
+    @inject("ClinicAssociateRepository")
+    associateRepository: ClinicAssociateRepository,
 
     @inject("ClinicRepository")
     clinicRepository: ClinicRepository
@@ -41,7 +41,7 @@ export default class CreateAssociateService
     regionalCouncil,
     regionalCouncilNumber,
     specialty,
-  }: CreateAssociateServiceParams): Promise<Associate> {
+  }: CreateAssociateServiceParams): Promise<ClinicAssociate> {
     const clinic = await this.clinicRepository.findClinicById(clinicId);
     if (!clinic) {
       throw new BusinessRuleViolationError("Clinica não existe");
@@ -54,7 +54,7 @@ export default class CreateAssociateService
       regionalCouncil: regionalCouncil,
       regionalCouncilNumber: regionalCouncilNumber,
       specialty: specialty,
-    } as Associate;
+    } as ClinicAssociate;
 
     let newAssociate = await this.associateRepository.create(associate);
 

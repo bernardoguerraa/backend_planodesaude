@@ -10,8 +10,10 @@ import DoctorRepository from "../../../../modules/users/repository/DoctorReposit
 import DoctorRepositoryTORM from "../../../../modules/users/repository/TORM/DoctorRepositoryTORM";
 import ClinicRepository from "../../../../modules/users/repository/ClinicRepository";
 import ClinicRepositoryTORM from "../../../../modules/users/repository/TORM/ClinicRepositoryTORM";
-import AssociateRepository from "../../../../modules/services/repository/AssociateRepository";
-import AssociateRepositoryTORM from "../../../../modules/services/repository/TORM/AssociateRepositoryTORM";
+import ClinicAssociateRepository from "../../../../modules/services/repository/ClinicAssociateRepository";
+import ClinicAssociateRepositoryTORM from "../../../../modules/services/repository/TORM/ClinicAssociateRepositoryTORM";
+import ClientAssociateRepository from "../../../../modules/services/repository/ClientAssociateRepository";
+import ClientAssociateRepositoryTORM from "../../../../modules/services/repository/TORM/ClientAssociateRepositoryTORM";
 import SpecialtyRepository from "../../../../modules/users/repository/SpecialtyRepository";
 import SpecialtyRepositoryTORM from "../../../../modules/users/repository/TORM/SpecialtyRepositoryTORM";
 import ProviderSpecialtyRepository from "../../../../modules/users/repository/ProviderSpecialtyRepository";
@@ -41,9 +43,14 @@ export default function registerRepositories(): void {
     UsersProfilesRepositoryTORM
   );
 
-  container.register<AssociateRepository>(
-    "AssociateRepository",
-    AssociateRepositoryTORM
+  container.register<ClinicAssociateRepository>(
+    "ClinicAssociateRepository",
+    ClinicAssociateRepositoryTORM
+  );
+
+  container.register<ClientAssociateRepository>(
+    "ClientAssociateRepository",
+    ClientAssociateRepositoryTORM
   );
 
   container.register<SpecialtyRepository>(

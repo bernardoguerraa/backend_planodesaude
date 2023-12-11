@@ -32,7 +32,11 @@ export default class ClinicRepositoryTORM implements ClinicRepository {
       })
       .getOne();
 
-    return result;
+    const clinic = await this.ormRepository.findOne({
+      where: { id: result?.id },
+    });
+
+    return clinic;
   }
 
   async findClinic(): Promise<Clinic[]> {

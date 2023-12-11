@@ -6,11 +6,11 @@ import {
   TableForeignKey,
 } from "typeorm";
 
-export class CreateAssociateTable1683150700382 implements MigrationInterface {
+export class createClinicAssociate1702277628722 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: "associates",
+        name: "clinic_associates",
         columns: [
           {
             name: "id",
@@ -52,7 +52,7 @@ export class CreateAssociateTable1683150700382 implements MigrationInterface {
     );
 
     await queryRunner.addColumn(
-      "associates",
+      "clinic_associates",
       new TableColumn({
         name: "clinic_id",
         type: "uuid",
@@ -60,7 +60,7 @@ export class CreateAssociateTable1683150700382 implements MigrationInterface {
     );
 
     await queryRunner.createForeignKey(
-      "associates",
+      "clinic_associates",
       new TableForeignKey({
         name: "clinic_fk",
         columnNames: ["clinic_id"],
@@ -73,8 +73,8 @@ export class CreateAssociateTable1683150700382 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropForeignKey("associates", "clinic_fk");
-    await queryRunner.dropColumn("associates", "clinic_id");
-    await queryRunner.dropTable("associates");
+    await queryRunner.dropForeignKey("clinic_associates", "clinic_fk");
+    await queryRunner.dropColumn("clinic_associates", "clinic_id");
+    await queryRunner.dropTable("clinic_associates");
   }
 }

@@ -12,10 +12,11 @@ export default class ClinicController {
       email,
       password,
       addresses,
-      cpf,
+      cpf_cnpj,
       dateOfBirth,
       phoneNumber,
       name,
+      rg,
       specialty,
     } = request.body;
     const createClinicService = clinicContainer.resolve(CreateClinicService);
@@ -23,11 +24,12 @@ export default class ClinicController {
     let clinic = await createClinicService.execute({
       profile: {
         name,
+        rg,
         email,
         password,
         dateOfBirth,
         phoneNumber,
-        cpf,
+        cpf_cnpj,
       },
       addresses,
       specialty,

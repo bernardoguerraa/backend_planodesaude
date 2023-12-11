@@ -11,7 +11,7 @@ import {
 import Addresses from "./Addresses";
 import { v4 as uuid } from "uuid";
 import UserProfile from "./UserProfile";
-
+import ClientAssociate from "./ClientAssociate";
 @Entity("clients")
 export default class Client {
   @PrimaryGeneratedColumn("uuid")
@@ -46,6 +46,9 @@ export default class Client {
     referencedColumnName: "id",
   })
   profile: UserProfile;
+
+  @OneToMany(() => ClientAssociate, (clientAssociate) => clientAssociate.client)
+  clientAssociate: ClientAssociate[];
 
   constructor() {
     if (!this.id) {

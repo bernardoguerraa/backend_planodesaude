@@ -9,7 +9,7 @@ import {
   JoinColumn,
 } from "typeorm";
 import Addresses from "./Addresses";
-import Associate from "./Associate";
+import ClinicAssociate from "./ClinicAssociate";
 import UserProfile from "./UserProfile";
 import { v4 as uuid } from "uuid";
 @Entity("clinics")
@@ -19,7 +19,7 @@ export default class Clinic {
 
   @ManyToMany(() => Addresses, (Addresses) => Addresses.clinic, {
     eager: true,
-    cascade: ["insert"],
+    cascade: true,
   })
   @JoinTable({
     name: "clinics_addresses",
@@ -34,8 +34,8 @@ export default class Clinic {
   })
   addresses: Addresses[];
 
-  @OneToMany(() => Associate, (Associates) => Associates.clinic)
-  associate: Associate[];
+  @OneToMany(() => ClinicAssociate, (clinicAssociate) => clinicAssociate.clinic)
+  clinicAssociate: ClinicAssociate[];
 
   @OneToOne(() => UserProfile, (userProfile) => userProfile.clinic, {
     eager: true,

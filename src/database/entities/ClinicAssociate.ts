@@ -7,8 +7,8 @@ import {
 } from "typeorm";
 import Clinic from "./Clinic";
 import { v4 as uuid } from "uuid";
-@Entity("associates")
-export default class Associate {
+@Entity("clinic_associates")
+export default class ClinicAssociate {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -27,7 +27,7 @@ export default class Associate {
   @Column({ name: "specialty", array: true, default: [] })
   specialty: string;
 
-  @ManyToOne(() => Clinic, (clinic) => clinic.associate)
+  @ManyToOne(() => Clinic, (clinic) => clinic.clinicAssociate)
   @JoinColumn({
     name: "clinic_id",
     referencedColumnName: "id",
