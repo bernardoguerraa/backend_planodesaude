@@ -6,7 +6,9 @@ import ClientAssociate from "../../../../../database/entities/ClientAssociate";
 import ClientAssociateRepository from "../../../repository/ClientAssociateRepository";
 import Client from "../../../../../database/entities/Client";
 import ClientRepository from "../../../../users/repository/ClientRepository";
-
+import UserProfile from "../../../../../database/entities/UserProfile";
+import UsersProfilesRepository from "../../../../users/repository/UsersProfilesRepository";
+import EntityPersistanceError from "../../../../../shared/aplication/error/EntityPersistanceError";
 interface CreateAssociateServiceParams {
   clientId: string;
   name: string;
@@ -22,16 +24,20 @@ export default class CreateClientAssociateService
 {
   private associateRepository: ClientAssociateRepository;
   private clientRepository: ClientRepository;
+  private userProfileRepository: UsersProfilesRepository;
 
   constructor(
     @inject("ClientAssociateRepository")
     associateRepository: ClientAssociateRepository,
 
     @inject("ClientRepository")
-    clientRepository: ClientRepository
+    clientRepository: ClientRepository,
+    @inject("UsersProfilesRepository")
+    userProfileRepository: UsersProfilesRepository
   ) {
     this.associateRepository = associateRepository;
     this.clientRepository = clientRepository;
+    this.userProfileRepository = userProfileRepository;
   }
 
   public async execute({
@@ -45,6 +51,45 @@ export default class CreateClientAssociateService
     const clinic = await this.clientRepository.findById(clientId);
     if (!clinic) {
       throw new BusinessRuleViolationError("Cliente não existe");
+    }
+
+    const [existingPhoneNumber] = await this.userProfileRepository.find({
+      phoneNumber: phoneNumber,
+    });
+    if (existingPhoneNumber) {
+      throw new EntityPersistanceError("Este numero ja esta cadastrado!");
+    }
+    const [existingCPF] = await this.userProfileRepository.find({
+      cpf_cnpj: cpf,
+    });
+    if (existingCPF) {
+      throw new EntityPersistanceError("Este cpf ja esta cadastrado!");
+    }
+
+    const [existingRg] = await this.userProfileRepository.find({
+      rg: rg,
+    });
+    if (existingRg) {
+      throw new EntityPersistanceError("Este cpf ja esta cadastrado!");
+    }
+    const [existingPhoneNumberAssociate] = await this.associateRepository.find({
+      phoneNumber: phoneNumber,
+    });
+    if (existingPhoneNumberAssociate) {
+      throw new EntityPersistanceError("Este numero ja esta cadastrado!");
+    }
+    const [existingCPFAssociate] = await this.associateRepository.find({
+      cpf: cpf,
+    });
+    if (existingCPFAssociate) {
+      throw new EntityPersistanceError("Este cpf ja esta cadastrado!");
+    }
+
+    const [existingRgAssociate] = await this.associateRepository.find({
+      rg: rg,
+    });
+    if (existingRgAssociate) {
+      throw new EntityPersistanceError("Este cpf ja esta cadastrado!");
     }
 
     const associate = {
