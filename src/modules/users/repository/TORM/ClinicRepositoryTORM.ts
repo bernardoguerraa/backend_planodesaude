@@ -12,15 +12,15 @@ export default class ClinicRepositoryTORM implements ClinicRepository {
     this.ormRepository = getRepository(Clinic);
   }
   async find(filters: Filters<Clinic>): Promise<Clinic[]> {
-    const customers = await this.ormRepository.find(filters);
+    const clinic = await this.ormRepository.find(filters);
 
-    return customers;
+    return clinic;
   }
   async findClinicById(clinicId: string): Promise<Clinic> {
-    const customers = await this.ormRepository.findOne({
+    const clinic = await this.ormRepository.findOne({
       where: { id: clinicId },
     });
-    return customers;
+    return clinic;
   }
   async findByEmail(email: string): Promise<Clinic | undefined> {
     const result = await this.ormRepository
@@ -40,8 +40,8 @@ export default class ClinicRepositoryTORM implements ClinicRepository {
   }
 
   async findClinic(): Promise<Clinic[]> {
-    const customers = await this.ormRepository.find();
-    return customers;
+    const clinic = await this.ormRepository.find();
+    return clinic;
   }
 
   async create(model: Model<Clinic>): Promise<Clinic> {

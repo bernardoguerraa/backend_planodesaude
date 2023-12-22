@@ -7,7 +7,7 @@ import Service from "../../../../database/repositories/Services";
 export class GetClinicsService implements Service<Clinic, Clinic[]> {
   private clinicRepository: ClinicRepository;
   constructor(
-    @inject("ClientRepository")
+    @inject("ClinicRepository")
     clinicRepository: ClinicRepository
   ) {
     this.clinicRepository = clinicRepository;

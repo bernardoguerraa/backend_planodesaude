@@ -41,4 +41,6 @@ clinicRoutes.post(
   ClinicController.authenticate
 );
 
+clinicRoutes.get("/getClinics", ClinicController.GetClinics);
+
 export default clinicRoutes;
