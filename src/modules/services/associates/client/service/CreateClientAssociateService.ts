@@ -48,8 +48,8 @@ export default class CreateClientAssociateService
     phoneNumber,
     rg,
   }: CreateAssociateServiceParams): Promise<ClientAssociate> {
-    const clinic = await this.clientRepository.findById(clientId);
-    if (!clinic) {
+    const client = await this.clientRepository.findById(clientId);
+    if (!client) {
       throw new BusinessRuleViolationError("Cliente não existe");
     }
 

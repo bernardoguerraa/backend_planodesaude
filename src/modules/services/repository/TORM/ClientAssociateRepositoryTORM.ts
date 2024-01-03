@@ -31,6 +31,12 @@ export default class ClientAssociateRepositoryTORM
 
     return findAssocaiteServiceById;
   }
+  async findAllClientAssociates(clientId: string): Promise<ClientAssociate[]> {
+    const associates = await this.ormRepository.find({
+      where: { client: { id: clientId } },
+    });
+    return associates;
+  }
 
   async create(model: Model<ClientAssociate>): Promise<ClientAssociate> {
     let associate = this.ormRepository.create(model);
@@ -42,7 +48,8 @@ export default class ClientAssociateRepositoryTORM
   async updateAssociate(
     partialModel: ClientAssociate
   ): Promise<ClientAssociate> {
-    return partialModel;
+    const updatedAssociate = await this.ormRepository.save(partialModel);
+    return updatedAssociate;
   }
 
   async updateById(id: string, partialModel: ClientAssociate): Promise<void> {

@@ -19,4 +19,37 @@ clientAssociateRoutes.post(
   ClientAssociateController.createAssociate
 );
 
+clientAssociateRoutes.put(
+  "/updateAssociate",
+  celebrate({
+    [Segments.BODY]: Joi.object({
+      associateId: Joi.string().uuid().required(),
+      cpf: Joi.number().optional(),
+      dateOfBirth: Joi.date().optional(),
+      name: Joi.string().optional(),
+      phoneNumber: Joi.number().optional(),
+      rg: Joi.string().optional(),
+    }),
+  }),
+  ClientAssociateController.updateAssociate
+);
+clientAssociateRoutes.delete(
+  "/deleteAssociate/:associateId",
+  celebrate({
+    [Segments.PARAMS]: Joi.object({
+      associateId: Joi.string().uuid().required(),
+    }),
+  }),
+  ClientAssociateController.deleteAssociate
+);
+clientAssociateRoutes.get(
+  "/getAssociates/:clientId",
+  celebrate({
+    [Segments.PARAMS]: Joi.object({
+      clientId: Joi.string().uuid().required(),
+    }),
+  }),
+  ClientAssociateController.getAssociates
+);
+
 export default clientAssociateRoutes;
