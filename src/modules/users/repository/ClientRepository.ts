@@ -22,6 +22,7 @@ interface ClientRepository
     number: number,
     neighbourhood: string,
     city: string,
+    cep: number,
     state: string
   ): Promise<Client>;
 

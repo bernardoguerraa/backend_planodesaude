@@ -98,6 +98,7 @@ export default class ClientRepositoryTORM implements ClientRepository {
     number: number,
     neighbourhood: string,
     city: string,
+    cep: number,
     state: string
   ): Promise<Client> {
     partialModel.addresses[0].streetName = streetName
@@ -115,11 +116,10 @@ export default class ClientRepositoryTORM implements ClientRepository {
     partialModel.addresses[0].state = state
       ? state
       : partialModel.addresses[0].state;
-
+    partialModel.addresses[0].cep = cep ? cep : partialModel.addresses[0].cep;
     await this.ormRepository.save(partialModel);
     return partialModel;
   }
-
   async updateSecretPass(
     partialModel: Client,
     password: string
