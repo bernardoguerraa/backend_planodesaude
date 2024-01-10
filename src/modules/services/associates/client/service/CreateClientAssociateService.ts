@@ -1,21 +1,27 @@
 import { inject, injectable } from "tsyringe";
 import BusinessRuleViolationError from "../../../../../shared/aplication/error/BusinessRuleViolationError";
 import AuthenticationError from "../../../../../shared/aplication/error/AuthenticationError";
+
 import Service from "../../../../../database/repositories/Services";
 import ClientAssociate from "../../../../../database/entities/ClientAssociate";
 import ClientAssociateRepository from "../../../repository/ClientAssociateRepository";
 import Client from "../../../../../database/entities/Client";
 import ClientRepository from "../../../../users/repository/ClientRepository";
 import UserProfile from "../../../../../database/entities/UserProfile";
+import UserPermission from "../../../../../database/entities/UserPermission";
+import UserPermissionsRepository from "../../../../users/repository/UserPermissionsRepository";
 import UsersProfilesRepository from "../../../../users/repository/UsersProfilesRepository";
 import EntityPersistanceError from "../../../../../shared/aplication/error/EntityPersistanceError";
+import BCryptJSHashProvider from "../../../../../shared/providers/HashProvider/BCryptJSHashProvider";
 interface CreateAssociateServiceParams {
   clientId: string;
   name: string;
   dateOfBirth: Date;
   phoneNumber: number;
-  cpf: string;
+  cpf: number;
   rg: string;
+  email: string;
+  password: string;
 }
 
 @injectable()
@@ -25,7 +31,7 @@ export default class CreateClientAssociateService
   private associateRepository: ClientAssociateRepository;
   private clientRepository: ClientRepository;
   private userProfileRepository: UsersProfilesRepository;
-
+  private permissionsRepository: UserPermissionsRepository;
   constructor(
     @inject("ClientAssociateRepository")
     associateRepository: ClientAssociateRepository,
@@ -33,11 +39,14 @@ export default class CreateClientAssociateService
     @inject("ClientRepository")
     clientRepository: ClientRepository,
     @inject("UsersProfilesRepository")
-    userProfileRepository: UsersProfilesRepository
+    userProfileRepository: UsersProfilesRepository,
+    @inject("PermissionsRepository")
+    permissionsRepository: UserPermissionsRepository
   ) {
     this.associateRepository = associateRepository;
     this.clientRepository = clientRepository;
     this.userProfileRepository = userProfileRepository;
+    this.permissionsRepository = permissionsRepository;
   }
 
   public async execute({
@@ -47,7 +56,18 @@ export default class CreateClientAssociateService
     name,
     phoneNumber,
     rg,
+    email,
+    password,
   }: CreateAssociateServiceParams): Promise<ClientAssociate> {
+    const createHash = new BCryptJSHashProvider();
+
+    const [existingProfile] = await this.userProfileRepository.find({
+      email: email,
+    });
+
+    if (existingProfile) {
+      throw new EntityPersistanceError("Este e-mail ja esta cadastrado!");
+    }
     const client = await this.clientRepository.findById(clientId);
     if (!client) {
       throw new BusinessRuleViolationError("Cliente não existe");
@@ -72,37 +92,41 @@ export default class CreateClientAssociateService
     if (existingRg) {
       throw new EntityPersistanceError("Este cpf ja esta cadastrado!");
     }
-    const [existingPhoneNumberAssociate] = await this.associateRepository.find({
-      phoneNumber: phoneNumber,
-    });
-    if (existingPhoneNumberAssociate) {
-      throw new EntityPersistanceError("Este numero ja esta cadastrado!");
-    }
-    const [existingCPFAssociate] = await this.associateRepository.find({
-      cpf: cpf,
-    });
-    if (existingCPFAssociate) {
-      throw new EntityPersistanceError("Este cpf ja esta cadastrado!");
-    }
 
-    const [existingRgAssociate] = await this.associateRepository.find({
-      rg: rg,
-    });
-    if (existingRgAssociate) {
-      throw new EntityPersistanceError("Este cpf ja esta cadastrado!");
-    }
+    const encryptedPassword = await createHash.generateHash(password);
 
     const associate = {
-      name: name,
       client: { id: clientId } as Client,
-      dateOfBirth: dateOfBirth,
-      cpf: cpf,
-      rg: rg,
-      phoneNumber: phoneNumber,
+      profile: {
+        name: name,
+        dateOfBirth: dateOfBirth,
+        cpf_cnpj: cpf,
+        rg: rg,
+        phoneNumber: phoneNumber,
+        email: email,
+        password: encryptedPassword,
+      },
     } as ClientAssociate;
 
-    let newAssociate = await this.associateRepository.create(associate);
+    let newAssociate = associate;
 
-    return newAssociate;
+    newAssociate.profile = await this.userProfileRepository.create(
+      associate.profile
+    );
+
+    const createAssociate = await this.associateRepository.create(newAssociate);
+
+    createAssociate.profile.permissions =
+      await this.permissionsRepository.addUserPermissions(
+        newAssociate.profile.id,
+        [
+          {
+            accessType: "role",
+            access: "associate",
+          },
+        ]
+      );
+
+    return createAssociate;
   }
 }

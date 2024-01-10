@@ -72,7 +72,7 @@ export default class ClientRepositoryTORM implements ClientRepository {
   async update(
     partialModel: Client,
     name: string,
-    cpf: string,
+    cpf: number,
     dateOfBirth: Date,
     phoneNumber: number,
     avatar: string,

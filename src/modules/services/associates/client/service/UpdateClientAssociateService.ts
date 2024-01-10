@@ -14,7 +14,7 @@ interface UpdateAssociateServiceParams {
   name: string;
   dateOfBirth: Date;
   phoneNumber: number;
-  cpf: string;
+  cpf: number;
   rg: string;
 }
 
@@ -55,18 +55,22 @@ export default class UpdateClientAssociateService
       throw new BusinessRuleViolationError("Associado não existe");
     }
 
-    if (clientAssociate.cpf == cpf) {
-      if (clientAssociate.rg == rg) {
-        if (clientAssociate.phoneNumber == phoneNumber) {
-          clientAssociate.name = name ? name : clientAssociate.name;
-          clientAssociate.cpf = cpf ? cpf : clientAssociate.cpf;
-          clientAssociate.dateOfBirth = dateOfBirth
+    if (clientAssociate.profile.cpf_cnpj == cpf) {
+      if (clientAssociate.profile.rg == rg) {
+        if (clientAssociate.profile.phoneNumber == phoneNumber) {
+          clientAssociate.profile.name = name
+            ? name
+            : clientAssociate.profile.name;
+          clientAssociate.profile.cpf_cnpj = cpf
+            ? cpf
+            : clientAssociate.profile.cpf_cnpj;
+          clientAssociate.profile.dateOfBirth = dateOfBirth
             ? dateOfBirth
-            : clientAssociate.dateOfBirth;
-          clientAssociate.phoneNumber = phoneNumber
+            : clientAssociate.profile.dateOfBirth;
+          clientAssociate.profile.phoneNumber = phoneNumber
             ? phoneNumber
-            : clientAssociate.phoneNumber;
-          clientAssociate.rg = rg ? rg : clientAssociate.rg;
+            : clientAssociate.profile.phoneNumber;
+          clientAssociate.profile.rg = rg ? rg : clientAssociate.profile.rg;
 
           let updatedAssociate = await this.associateRepository.updateAssociate(
             clientAssociate
@@ -74,13 +78,6 @@ export default class UpdateClientAssociateService
 
           return updatedAssociate;
         } else {
-          const [existingPhoneNumberAssociate] =
-            await this.associateRepository.find({
-              phoneNumber: phoneNumber,
-            });
-          if (existingPhoneNumberAssociate) {
-            throw new EntityPersistanceError("Este numero ja esta cadastrado!");
-          }
           const [existingPhoneNumber] = await this.userProfileRepository.find({
             phoneNumber: phoneNumber,
           });
@@ -95,12 +92,6 @@ export default class UpdateClientAssociateService
         if (existingRg) {
           throw new EntityPersistanceError("Este rg ja esta cadastrado!");
         }
-        const [existingRgAssociate] = await this.associateRepository.find({
-          rg: rg,
-        });
-        if (existingRgAssociate) {
-          throw new EntityPersistanceError("Este rg ja esta cadastrado!");
-        }
       }
     } else {
       const [existingCPF] = await this.userProfileRepository.find({
@@ -110,28 +101,23 @@ export default class UpdateClientAssociateService
         throw new EntityPersistanceError("Este cpf ja esta cadastrado!");
       }
 
-      const [existingCPFAssociate] = await this.associateRepository.find({
-        cpf: cpf,
-      });
-      if (existingCPFAssociate) {
-        throw new EntityPersistanceError("Este cpf ja esta cadastrado!");
-      }
+      clientAssociate.profile.name = name ? name : clientAssociate.profile.name;
+      clientAssociate.profile.cpf_cnpj = cpf
+        ? cpf
+        : clientAssociate.profile.cpf_cnpj;
+      clientAssociate.profile.dateOfBirth = dateOfBirth
+        ? dateOfBirth
+        : clientAssociate.profile.dateOfBirth;
+      clientAssociate.profile.phoneNumber = phoneNumber
+        ? phoneNumber
+        : clientAssociate.profile.phoneNumber;
+      clientAssociate.profile.rg = rg ? rg : clientAssociate.profile.rg;
+
+      let updatedAssociate = await this.associateRepository.updateAssociate(
+        clientAssociate
+      );
+
+      return updatedAssociate;
     }
-
-    clientAssociate.name = name ? name : clientAssociate.name;
-    clientAssociate.cpf = cpf ? cpf : clientAssociate.cpf;
-    clientAssociate.dateOfBirth = dateOfBirth
-      ? dateOfBirth
-      : clientAssociate.dateOfBirth;
-    clientAssociate.phoneNumber = phoneNumber
-      ? phoneNumber
-      : clientAssociate.phoneNumber;
-    clientAssociate.rg = rg ? rg : clientAssociate.rg;
-
-    let updatedAssociate = await this.associateRepository.updateAssociate(
-      clientAssociate
-    );
-
-    return updatedAssociate;
   }
 }

@@ -8,7 +8,9 @@ import clientAssociateRoutes from "./modules/services/associates/client/routes/c
 import handleError from "./shared/middlewares/handleException";
 import filterRoutes from "./modules/services/filter/routes/filter.routes";
 import specialtyRoutes from "./modules/users/specialty/routes/specialty.routes";
+import activitiesRoutes from "./modules/services/activities/routes/activities.routes";
 import AppGeneralError from "./shared/aplication/error/AppError";
+
 export default function createAplicationRouter(): Router {
   const appRoutes = Router();
 
@@ -19,6 +21,7 @@ export default function createAplicationRouter(): Router {
   appRoutes.use("/clientAssociates", clientAssociateRoutes);
   appRoutes.use("/filter", filterRoutes);
   appRoutes.use("/specialty", specialtyRoutes);
+  appRoutes.use("/activity", activitiesRoutes);
   appRoutes.use(errors());
   appRoutes.use(handleError);
   return appRoutes;

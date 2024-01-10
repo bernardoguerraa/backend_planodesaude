@@ -37,6 +37,21 @@ export default class ClientAssociateRepositoryTORM
     });
     return associates;
   }
+  async findByCpf(cpf: number): Promise<ClientAssociate> {
+    const result = await this.ormRepository
+      .createQueryBuilder("client_associate")
+      .innerJoinAndSelect("client_associate.profile", "profile")
+      .leftJoinAndSelect("profile.permissions", "permissions")
+      .where("profile.cpf_cnpj = :cpf AND permissions.isRevoked = false", {
+        cpf,
+      })
+      .getOne();
+
+    const clientAssociate = await this.ormRepository.findOne({
+      where: { id: result?.id },
+    });
+    return clientAssociate;
+  }
 
   async create(model: Model<ClientAssociate>): Promise<ClientAssociate> {
     let associate = this.ormRepository.create(model);

@@ -10,7 +10,7 @@ interface ClientRepository
   update(
     partialModel: Client,
     name: string,
-    cpf: string,
+    cpf: number,
     dateOfBirth: Date,
     phoneNumber: number,
     avatar: string,

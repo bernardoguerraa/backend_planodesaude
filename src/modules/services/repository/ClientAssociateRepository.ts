@@ -9,6 +9,7 @@ interface ClientAssociateRepository extends Repository<ClientAssociate> {
    * @param id clinic unique identifier
    */
   findById(id: string): Promise<ClientAssociate>;
+  findByCpf(cpf: number): Promise<ClientAssociate>;
   findAllClientAssociates(clientId: string): Promise<ClientAssociate[]>;
   updateAssociate(partialModel: ClientAssociate): Promise<ClientAssociate>;
 }

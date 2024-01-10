@@ -14,6 +14,8 @@ clientAssociateRoutes.post(
       name: Joi.string().required(),
       phoneNumber: Joi.number().optional(),
       rg: Joi.string().optional(),
+      email: Joi.string().required(),
+      password: Joi.string().required(),
     }),
   }),
   ClientAssociateController.createAssociate

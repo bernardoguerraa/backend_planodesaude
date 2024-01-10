@@ -18,6 +18,8 @@ import SpecialtyRepository from "../../../../modules/users/repository/SpecialtyR
 import SpecialtyRepositoryTORM from "../../../../modules/users/repository/TORM/SpecialtyRepositoryTORM";
 import ProviderSpecialtyRepository from "../../../../modules/users/repository/ProviderSpecialtyRepository";
 import ProviderSpecialtyRepositoryTORM from "../../../../modules/users/repository/TORM/ProviderSpecialtyRepositoryTORM";
+import ActivitiesRepository from "../../../../modules/services/repository/ActivitiesRepository";
+import ActivitiesRepositoryTORM from "../../../../modules/services/repository/TORM/ActivitiesRepositoryTORM";
 export default function registerRepositories(): void {
   container.register<ClientRepository>(
     "ClientRepository",
@@ -61,5 +63,10 @@ export default function registerRepositories(): void {
   container.register<ProviderSpecialtyRepository>(
     "ProviderSpecialtyRepository",
     ProviderSpecialtyRepositoryTORM
+  );
+
+  container.register<ActivitiesRepository>(
+    "ActivitiesRepository",
+    ActivitiesRepositoryTORM
   );
 }

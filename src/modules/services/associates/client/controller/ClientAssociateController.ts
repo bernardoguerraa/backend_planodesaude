@@ -25,7 +25,16 @@ export default class ClientAssociateController {
     request: Request,
     response: Response
   ): Promise<Response> {
-    const { clientId, name, dateOfBirth, phoneNumber, cpf, rg } = request.body;
+    const {
+      clientId,
+      name,
+      dateOfBirth,
+      phoneNumber,
+      cpf,
+      rg,
+      email,
+      password,
+    } = request.body;
 
     const createAssociate = container.resolve(CreateClientAssociateService);
 
@@ -36,6 +45,8 @@ export default class ClientAssociateController {
       name,
       phoneNumber,
       rg,
+      email,
+      password,
     });
 
     return response.status(201).json(associate);

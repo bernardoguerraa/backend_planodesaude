@@ -17,35 +17,6 @@ export class clientAssociate1702276850379 implements MigrationInterface {
             type: "uuid",
             isPrimary: true,
           },
-          {
-            name: "name",
-            type: "varchar",
-            length: "255",
-            isNullable: true,
-          },
-          {
-            name: "phone_number",
-            type: "numeric",
-            length: "20",
-            isUnique: true,
-          },
-          {
-            name: "cpf",
-            type: "numeric",
-            length: "15",
-            isUnique: true,
-          },
-          {
-            name: "rg",
-            type: "varchar",
-            length: "15",
-            isUnique: true,
-          },
-          {
-            name: "date_of_birth",
-            type: "timestamptz",
-            default: "now()",
-          },
         ],
       })
     );
@@ -69,11 +40,32 @@ export class clientAssociate1702276850379 implements MigrationInterface {
         onUpdate: "CASCADE",
       })
     );
+    await queryRunner.addColumn(
+      "client_associate",
+      new TableColumn({
+        name: "profile_id",
+        type: "uuid",
+      })
+    );
+
+    await queryRunner.createForeignKey(
+      "client_associate",
+      new TableForeignKey({
+        name: "profile_fk",
+        columnNames: ["profile_id"],
+        referencedColumnNames: ["id"],
+        referencedTableName: "users_profiles",
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+      })
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropForeignKey("client_associate", "client_fk");
     await queryRunner.dropColumn("client_associate", "client_id");
+    await queryRunner.dropForeignKey("client_associate", "profile_fk");
+    await queryRunner.dropColumn("client_associate", "profile_id");
     await queryRunner.dropTable("client_associate");
   }
 }
