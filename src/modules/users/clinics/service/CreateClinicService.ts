@@ -72,7 +72,7 @@ export class CreateClinicService implements Service<Model<Clinic>, Clinic> {
 
     await specialtyList.forEach(async (element) => {
       await this.providerSpecialtyRepository.create({
-        role: "doctor",
+        role: "clinic",
         profile: { id: treatedClininc.profile.id },
         specialty: { id: element },
       } as ProviderSpecialty);

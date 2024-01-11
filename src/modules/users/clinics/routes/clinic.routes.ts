@@ -41,4 +41,33 @@ clinicRoutes.post(
   ClinicController.authenticate
 );
 
+clinicRoutes.get("/getClinics", ClinicController.getClinics);
+
+clinicRoutes.get(
+  "/getClinic/:id",
+  celebrate({
+    [Segments.PARAMS]: Joi.object({
+      id: Joi.string().uuid().required(),
+    }),
+  }),
+  ClinicController.getClinicById
+)
+
+clinicRoutes.put(
+  "/updateClinic",
+  celebrate({
+    [Segments.PARAMS]:Joi.object({
+      id: Joi.string().uuid().required(),
+      name: Joi.string().optional(),
+      cpf: Joi.number().optional(),
+      dateOfBirth: Joi.date().optional(),
+      phoneNumber: Joi.number().optional(),
+      avatar: Joi.string().optional(),
+      rg: Joi.string().optional(),
+      specialty: Joi.string().optional(),
+    }),
+  }),
+  ClinicController.updateClinic
+);
+
 export default clinicRoutes;

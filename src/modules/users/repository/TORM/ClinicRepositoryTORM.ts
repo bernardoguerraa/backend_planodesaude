@@ -58,4 +58,29 @@ export default class ClinicRepositoryTORM implements ClinicRepository {
   async delete(id: string): Promise<void> {
     await this.ormRepository.delete(id);
   }
+
+  async update(
+    partialModel: Clinic,
+    name: string,
+    cpf: string,
+    dateOfBirth: Date,
+    phoneNumber: number,
+    avatar: string,
+    rg: string,
+    specialty: string,
+  ): Promise<Clinic> {
+    partialModel.profile.avatar = avatar ? avatar : partialModel.profile.avatar;
+    partialModel.profile.name = name ? name : partialModel.profile.name;
+    partialModel.profile.cpf_cnpj = cpf ? cpf : partialModel.profile.cpf_cnpj;
+    partialModel.profile.rg = rg ? rg : partialModel.profile.rg;
+    partialModel.profile.dateOfBirth = dateOfBirth
+      ? dateOfBirth
+      : partialModel.profile.dateOfBirth;
+    partialModel.profile.phoneNumber = phoneNumber
+      ? phoneNumber
+      : partialModel.profile.phoneNumber;
+
+    await this.ormRepository.save(partialModel);
+    return partialModel;
+  }
 }
