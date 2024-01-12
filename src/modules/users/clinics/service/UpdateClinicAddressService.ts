@@ -5,16 +5,15 @@ import Service from "../../../../database/repositories/Services";
 import EntityPersistanceError from "../../../../shared/aplication/error/EntityPersistanceError";
 interface UpdateClinicServiceParams {
   id: string;
-  name: string;
-  cpf: string;
-  rg: string;
-  phoneNumber: number;
-  dateOfBirth: Date;
-  avatar: string;
+  streetName: string;
+  number: number;
+  city: string;
+  state: string;
+  neighbourhood: string;
 }
 
 @injectable()
-export class UpdateClinicService
+export class UpdateClinicAddressService
   implements Service<UpdateClinicServiceParams, Clinic>
 {
   private clinicRepository: ClinicRepository;
@@ -26,28 +25,26 @@ export class UpdateClinicService
   }
   async execute({
     id,
-    name,
-    cpf,
-    dateOfBirth,
-    phoneNumber,
-    avatar,
-    rg,
+    city,
+    neighbourhood,
+    number,
+    state,
+    streetName,
   }: UpdateClinicServiceParams): Promise<Clinic> {
     const existingProfile = await this.clinicRepository.findClinicById(id);
     if (!existingProfile) {
       throw new EntityPersistanceError("Usuario não encontrado");
     }
 
-    const updateClinic = await this.clinicRepository.update(
+    const updateClinic = await this.clinicRepository.updateAddress(
       existingProfile,
-      name,
-      cpf,
-      dateOfBirth,
-      phoneNumber,
-      avatar,
-      rg,
+      streetName,
+      number,
+      neighbourhood,
+      city,
+      state
     );
-    console.log(updateClinic);
+
     return updateClinic;
   }
 }

@@ -6,6 +6,8 @@ import { GetClinicsService } from "../service/GetClinicsService";
 import { GetClinicByIdService } from "../service/GetClinicByIdService";
 import { UpdateClinicService } from "../service/UpdateClinicService";
 import AuthenticateService from "../../authenticate/service/AuthenticateService";
+import { UpdateClinicAddressService } from "../service/UpdateClinicAddressService";
+import { UpdateClinicSecretPassService } from "../service/UpdateClinicSecretpassService"
 export default class ClinicController {
   static async createClinic(
     request: Request,
@@ -89,7 +91,7 @@ export default class ClinicController {
     request: Request,
     response: Response
   ): Promise<Response> {
-    const { id, name, phoneNumber, dateOfBirth, cpf, avatar, rg, specialty} =
+    const { id, name, phoneNumber, dateOfBirth, cpf, avatar, rg} =
       request.body;
     const updateClinicService = clinicContainer.resolve(UpdateClinicService);
     const clinic = await updateClinicService.execute({
@@ -100,7 +102,40 @@ export default class ClinicController {
       cpf,
       avatar,
       rg,
-      specialty,
+    });
+    return response.status(200).json(clinic);
+  }
+
+  static async updateClinicAddress(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id, streetName, number, neighbourhood, city, state } = request.body;
+    const updateClinicsService = clinicContainer.resolve(
+      UpdateClinicAddressService
+    );
+    const clinic = await updateClinicsService.execute({
+      id,
+      streetName,
+      number,
+      neighbourhood,
+      city,
+      state,
+    });
+    return response.status(200).json(clinic);
+  }
+
+  static async updateClinicSecretPass(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id, password } = request.body;
+    const updateClinicService = clinicContainer.resolve(
+      UpdateClinicSecretPassService
+    );
+    const clinic = await updateClinicService.execute({
+      id,
+      password,
     });
     return response.status(200).json(clinic);
   }

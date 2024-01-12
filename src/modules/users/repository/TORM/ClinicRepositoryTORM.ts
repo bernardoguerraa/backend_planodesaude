@@ -67,19 +67,50 @@ export default class ClinicRepositoryTORM implements ClinicRepository {
     phoneNumber: number,
     avatar: string,
     rg: string,
-    specialty: string,
   ): Promise<Clinic> {
     partialModel.profile.avatar = avatar ? avatar : partialModel.profile.avatar;
     partialModel.profile.name = name ? name : partialModel.profile.name;
     partialModel.profile.cpf_cnpj = cpf ? cpf : partialModel.profile.cpf_cnpj;
     partialModel.profile.rg = rg ? rg : partialModel.profile.rg;
-    partialModel.profile.dateOfBirth = dateOfBirth
-      ? dateOfBirth
-      : partialModel.profile.dateOfBirth;
-    partialModel.profile.phoneNumber = phoneNumber
-      ? phoneNumber
-      : partialModel.profile.phoneNumber;
+    partialModel.profile.dateOfBirth = dateOfBirth ? dateOfBirth : partialModel.profile.dateOfBirth;
+    partialModel.profile.phoneNumber = phoneNumber ? phoneNumber : partialModel.profile.phoneNumber;
+    await this.ormRepository.save(partialModel);
+    return partialModel;
+  }
 
+  async updateAddress(
+    partialModel: Clinic,
+    streetName: string,
+    number: number,
+    neighbourhood: string,
+    city: string,
+    state: string
+  ): Promise<Clinic> {
+    partialModel.addresses[0].streetName = streetName
+      ? streetName
+      : partialModel.addresses[0].streetName;
+    partialModel.addresses[0].number = number
+      ? number
+      : partialModel.addresses[0].number;
+    partialModel.addresses[0].neighbourhood = neighbourhood
+      ? neighbourhood
+      : partialModel.addresses[0].neighbourhood;
+    partialModel.addresses[0].city = city
+      ? city
+      : partialModel.addresses[0].city;
+    partialModel.addresses[0].state = state
+      ? state
+      : partialModel.addresses[0].state;
+
+    await this.ormRepository.save(partialModel);
+    return partialModel;
+  }
+
+  async updateSecretPass(
+    partialModel: Clinic,
+    password: string
+  ): Promise<Clinic> {
+    partialModel.profile.password = password;
     await this.ormRepository.save(partialModel);
     return partialModel;
   }

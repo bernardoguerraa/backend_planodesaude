@@ -15,8 +15,16 @@ interface ClinicRepository
     phoneNumber: number,
     avatar: string,
     rg: string,
-    specialty: string,
   ): Promise<Clinic>;
+  updateAddress(
+    partialModel: Clinic,
+    streetName: string,
+    number: number,
+    neighbourhood: string,
+    city: string,
+    state: string
+  ): Promise<Clinic>;
+  updateSecretPass(partialModel: Clinic, password: string): Promise<Clinic>;
 }
 
 export default ClinicRepository;
