@@ -10,7 +10,7 @@ interface ClientRepository
   update(
     partialModel: Client,
     name: string,
-    cpf: string,
+    cpf: number,
     dateOfBirth: Date,
     phoneNumber: number,
     avatar: string,
@@ -22,6 +22,7 @@ interface ClientRepository
     number: number,
     neighbourhood: string,
     city: string,
+    cep: number,
     state: string
   ): Promise<Client>;
 

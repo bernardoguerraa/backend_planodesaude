@@ -128,7 +128,8 @@ export default class ClientController {
     request: Request,
     response: Response
   ): Promise<Response> {
-    const { id, streetName, number, neighbourhood, city, state } = request.body;
+    const { id, streetName, number, neighbourhood, city, state, cep } =
+      request.body;
     const updateClientsService = clientContainer.resolve(
       UpdateClientAddressService
     );
@@ -139,6 +140,7 @@ export default class ClientController {
       neighbourhood,
       city,
       state,
+      cep,
     });
     return response.status(200).json(client);
   }

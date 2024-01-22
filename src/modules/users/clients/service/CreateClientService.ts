@@ -46,6 +46,7 @@ export class CreateClientService implements Service<Model<Client>, Client> {
     if (existingCPF) {
       throw new EntityPersistanceError("Este cpf ja esta cadastrado!");
     }
+
     const treatedClient = { ...client };
     if (!existingProfile) {
       const encryptedPassword = await createHash.generateHash(

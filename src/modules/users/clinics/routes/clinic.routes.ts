@@ -21,6 +21,7 @@ clinicRoutes.post(
           streetName: Joi.string().optional(),
           number: Joi.number().optional(),
           adjunct: Joi.string().optional(),
+          cep: Joi.number().optional(),
           neighbourhood: Joi.string().optional(),
           city: Joi.string().optional(),
           state: Joi.string().optional(),

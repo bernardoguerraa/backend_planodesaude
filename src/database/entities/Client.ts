@@ -4,6 +4,7 @@ import {
   JoinColumn,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -12,6 +13,7 @@ import Addresses from "./Addresses";
 import { v4 as uuid } from "uuid";
 import UserProfile from "./UserProfile";
 import ClientAssociate from "./ClientAssociate";
+import Activity from "./Activity";
 @Entity("clients")
 export default class Client {
   @PrimaryGeneratedColumn("uuid")
@@ -49,6 +51,9 @@ export default class Client {
 
   @OneToMany(() => ClientAssociate, (clientAssociate) => clientAssociate.client)
   clientAssociate: ClientAssociate[];
+
+  @OneToMany(() => Activity, (activity) => activity.client)
+  activity: Activity[];
 
   constructor() {
     if (!this.id) {
