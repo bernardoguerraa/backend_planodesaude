@@ -55,9 +55,9 @@ clinicRoutes.get(
 )
 
 clinicRoutes.put(
-  "/updateClinic",
+  "/updateClinic/",
   celebrate({
-    [Segments.PARAMS]:Joi.object({
+    [Segments.BODY]:Joi.object({
       id: Joi.string().uuid().required(),
       name: Joi.string().optional(),
       cpf: Joi.number().optional(),
@@ -70,5 +70,32 @@ clinicRoutes.put(
   }),
   ClinicController.updateClinic
 );
+
+clinicRoutes.put(
+  "/updateClinicAddresses",
+  celebrate({
+    [Segments.BODY]:Joi.object({
+      id: Joi.string().uuid().required(),
+      streetName: Joi.string().optional(),
+      cep: Joi.number().optional(),
+      number: Joi.number().optional(),
+      neighbourhood: Joi.string().optional(),
+      city: Joi.string().optional(),
+      state: Joi.string().optional(),
+    }),
+  }),
+  ClinicController.updateClinicAddress
+)
+
+clinicRoutes.put(
+  "/updateClinicSecretPass",
+  celebrate({
+    [Segments.BODY]: Joi.object({
+      id: Joi.string().uuid().required(),
+      password: Joi.string().required(),
+    }),
+  }),
+  ClinicController.updateClinicSecretPass
+)
 
 export default clinicRoutes;

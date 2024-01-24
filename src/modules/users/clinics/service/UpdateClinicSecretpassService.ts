@@ -21,6 +21,7 @@ export class UpdateClinicSecretPassService
     this.clinicRepository = clinicRepository;
   }
   async execute({ id, password }: UpdateClinicServiceParams): Promise<Clinic> {
+    console.log(password);
     const createHash = new BCryptJSHashProvider();
     const existingProfile = await this.clinicRepository.findClinicById(id);
     if (!existingProfile) {
@@ -34,6 +35,7 @@ export class UpdateClinicSecretPassService
       encryptedPassword
     );
 
+    console.log(updateClinic);
     return updateClinic;
   }
 }

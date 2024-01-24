@@ -110,7 +110,7 @@ export default class ClinicController {
     request: Request,
     response: Response
   ): Promise<Response> {
-    const { id, streetName, number, neighbourhood, city, state } = request.body;
+    const { id, streetName, number, neighbourhood, city, state, cep } = request.body;
     const updateClinicsService = clinicContainer.resolve(
       UpdateClinicAddressService
     );
@@ -121,6 +121,7 @@ export default class ClinicController {
       neighbourhood,
       city,
       state,
+      cep
     });
     return response.status(200).json(clinic);
   }

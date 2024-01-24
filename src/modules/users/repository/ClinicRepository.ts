@@ -10,7 +10,7 @@ interface ClinicRepository
   update(
     partialModel: Clinic,
     name: string,
-    cpf: string,
+    cpf: number,
     dateOfBirth: Date,
     phoneNumber: number,
     avatar: string,
@@ -22,7 +22,8 @@ interface ClinicRepository
     number: number,
     neighbourhood: string,
     city: string,
-    state: string
+    state: string,
+    cep: number,
   ): Promise<Clinic>;
   updateSecretPass(partialModel: Clinic, password: string): Promise<Clinic>;
 }

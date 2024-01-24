@@ -62,7 +62,7 @@ export default class ClinicRepositoryTORM implements ClinicRepository {
   async update(
     partialModel: Clinic,
     name: string,
-    cpf: string,
+    cpf: number,
     dateOfBirth: Date,
     phoneNumber: number,
     avatar: string,
@@ -84,7 +84,8 @@ export default class ClinicRepositoryTORM implements ClinicRepository {
     number: number,
     neighbourhood: string,
     city: string,
-    state: string
+    state: string,
+    cep: number
   ): Promise<Clinic> {
     partialModel.addresses[0].streetName = streetName
       ? streetName
@@ -101,6 +102,9 @@ export default class ClinicRepositoryTORM implements ClinicRepository {
     partialModel.addresses[0].state = state
       ? state
       : partialModel.addresses[0].state;
+      partialModel.addresses[0].cep = cep
+      ? cep
+      : partialModel.addresses[0].cep;
 
     await this.ormRepository.save(partialModel);
     return partialModel;

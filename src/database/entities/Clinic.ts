@@ -46,6 +46,7 @@ export default class Clinic {
   //coluna de juncao 'profile_id'
   @OneToOne(() => UserProfile, (userProfile) => userProfile.clinic, {
     eager: true,
+    cascade: true,
   })
   @JoinColumn({
     name: "profile_id",

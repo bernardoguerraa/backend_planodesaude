@@ -10,6 +10,7 @@ interface UpdateClinicServiceParams {
   city: string;
   state: string;
   neighbourhood: string;
+  cep: number;
 }
 
 @injectable()
@@ -30,6 +31,7 @@ export class UpdateClinicAddressService
     number,
     state,
     streetName,
+    cep
   }: UpdateClinicServiceParams): Promise<Clinic> {
     const existingProfile = await this.clinicRepository.findClinicById(id);
     if (!existingProfile) {
@@ -42,7 +44,8 @@ export class UpdateClinicAddressService
       number,
       neighbourhood,
       city,
-      state
+      state,
+      cep
     );
 
     return updateClinic;
