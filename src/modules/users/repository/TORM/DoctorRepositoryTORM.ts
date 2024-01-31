@@ -52,4 +52,52 @@ export default class DoctorRepositoryTORM implements DoctorRepository {
   async delete(id: string): Promise<void> {
     await this.ormRepository.delete(id);
   }
+
+  async findDoctorById(doctorid: string): Promise<Doctor> {
+    const doctor = await this.ormRepository.findOne({
+      where: { id: doctorid},
+    });
+    return doctor;
+  }
+
+  async updateAddress(
+    partialModel: Doctor,
+    streetName: string,
+    number: number,
+    neighbourhood: string,
+    city: string,
+    state: string,
+    cep: number
+  ): Promise<Doctor> {
+    partialModel.addresses[0].streetName = streetName
+      ? streetName
+      : partialModel.addresses[0].streetName;
+    partialModel.addresses[0].number = number
+      ? number
+      : partialModel.addresses[0].number;
+    partialModel.addresses[0].neighbourhood = neighbourhood
+      ? neighbourhood
+      : partialModel.addresses[0].neighbourhood;
+    partialModel.addresses[0].city = city
+      ? city
+      : partialModel.addresses[0].city;
+    partialModel.addresses[0].state = state
+      ? state
+      : partialModel.addresses[0].state;
+      partialModel.addresses[0].cep = cep
+      ? cep
+      : partialModel.addresses[0].cep;
+
+    await this.ormRepository.save(partialModel);
+    return partialModel;
+  }
+
+  async updateSecretPass(
+    partialModel: Doctor,
+    password: string
+  ): Promise<Doctor> {
+    partialModel.profile.password = password;
+    await this.ormRepository.save(partialModel);
+    return partialModel;
+  }
 }

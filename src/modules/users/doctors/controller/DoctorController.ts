@@ -3,6 +3,10 @@ import Doctor from "../../../../database/entities/Doctor";
 import { doctorContainer } from "../../../../shared/aplication/tsyringe/containers/authentication";
 import { CreateDoctorService } from "../service/CreateDoctorService";
 import AuthenticateService from "../../authenticate/service/AuthenticateService";
+import { GetDoctorsService } from "../service/GetDoctorsService";
+import { GetDoctorByIdService } from "../service/GetDoctorByIdService";
+import { UpdateDoctorAddressService } from "../service/UpdateDoctorAddressService";
+import { UpdateDoctorSecretPassService } from "../service/UpdateDoctorSecretPassService";
 
 export default class DoctorController {
   static async createDoctor(
@@ -62,5 +66,64 @@ export default class DoctorController {
     });
 
     return response.status(200).json({ agent, token });
+  }
+
+  static async getDoctor(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const getDoctorService = doctorContainer.resolve(GetDoctorsService);
+
+    const doctor = await getDoctorService.execute();
+
+    return response.status(200).json(doctor);
+  }
+
+  static async getDoctorById(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id } = request.params;
+
+    const getDoctorByIdService = doctorContainer.resolve(GetDoctorByIdService);
+
+    const doctor = await getDoctorByIdService.execute({ id });
+
+    return response.status(200).json(doctor);
+  }
+
+  static async UpdateDoctorAddress(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id, streetName, number, neighbourhood, city, state, cep } = request.body;
+    const updateDoctorService = doctorContainer.resolve(
+      UpdateDoctorAddressService
+    );
+    const doctor = await updateDoctorService.execute({
+      id,
+      streetName,
+      number,
+      neighbourhood,
+      city,
+      state,
+      cep
+    });
+    return response.status(200).json(doctor);
+  }
+
+  static async updateDoctorSecretPass(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id, password } = request.body;
+    const updateDoctorService = doctorContainer.resolve(
+      UpdateDoctorSecretPassService
+    );
+    const doctor = await updateDoctorService.execute({
+      id,
+      password,
+    });
+    return response.status(200).json(doctor);
   }
 }

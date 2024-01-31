@@ -26,6 +26,7 @@ doctorRoutes.post(
           neighbourhood: Joi.string().optional(),
           city: Joi.string().optional(),
           state: Joi.string().optional(),
+          cep: Joi.number().optional(),
         })
       ),
     }),
@@ -43,5 +44,44 @@ doctorRoutes.post(
   }),
   DoctorController.authenticate
 );
+
+doctorRoutes.get("/getDoctor", DoctorController.getDoctor);
+
+doctorRoutes.get(
+  "/getDoctor/:id",
+  celebrate({
+    [Segments.PARAMS]: Joi.object({
+      id: Joi.string().uuid().required(),
+    }),
+  }),
+  DoctorController.getDoctorById
+);
+
+doctorRoutes.put(
+  "/updateDoctorAddress",
+  celebrate({
+    [Segments.BODY]: Joi.object({
+      id: Joi.string().uuid().required(),
+      streetName: Joi.string().optional(),
+      cep: Joi.number().optional(),
+      number: Joi.number().optional(),
+      neighbourhood: Joi.string().optional(),
+      city: Joi.string().optional(),
+      state: Joi.string().optional(),
+    }),
+  }),
+  DoctorController.UpdateDoctorAddress
+);
+
+doctorRoutes.put(
+  "/updateDoctorSecretPass",
+  celebrate({
+    [Segments.BODY]: Joi.object({
+      id: Joi.string().uuid().required(),
+      password: Joi.string().required(),
+    }),
+  }),
+  DoctorController.updateDoctorSecretPass
+)
 
 export default doctorRoutes;
