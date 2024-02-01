@@ -17,6 +17,16 @@ interface DoctorRepository
     cep: number,
   ): Promise<Doctor>;
   updateSecretPass(partialModel: Doctor, password: string): Promise<Doctor>;
+  update(
+    partialModel: Doctor,
+    name: string,
+    cpf: number,
+    dateOfBirth: Date,
+    phoneNumber: number,
+    avatar: string,
+    rg: string,
+  ): Promise<Doctor>;
+  
 }
 
 export default DoctorRepository;

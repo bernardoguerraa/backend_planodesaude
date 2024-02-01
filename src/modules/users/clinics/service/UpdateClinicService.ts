@@ -47,7 +47,6 @@ export class UpdateClinicService
       avatar,
       rg,
     );
-    console.log(updateClinic);
     return updateClinic;
   }
 }

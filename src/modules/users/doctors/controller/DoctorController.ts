@@ -7,6 +7,7 @@ import { GetDoctorsService } from "../service/GetDoctorsService";
 import { GetDoctorByIdService } from "../service/GetDoctorByIdService";
 import { UpdateDoctorAddressService } from "../service/UpdateDoctorAddressService";
 import { UpdateDoctorSecretPassService } from "../service/UpdateDoctorSecretPassService";
+import { UpdateDoctorService } from "../service/UpdateDoctorService";
 
 export default class DoctorController {
   static async createDoctor(
@@ -123,6 +124,26 @@ export default class DoctorController {
     const doctor = await updateDoctorService.execute({
       id,
       password,
+    });
+    return response.status(200).json(doctor);
+  }
+
+  static async updateDoctor(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id, name, cpf, rg, avatar, dateOfBirth, phoneNumber } = request.body;
+    const updateDoctorService = doctorContainer.resolve(
+      UpdateDoctorService
+    );
+    const doctor = await updateDoctorService.execute({
+      id,
+      name,
+      cpf,
+      rg,
+      avatar,
+      dateOfBirth,
+      phoneNumber,
     });
     return response.status(200).json(doctor);
   }

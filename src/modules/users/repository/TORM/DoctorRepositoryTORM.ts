@@ -100,4 +100,23 @@ export default class DoctorRepositoryTORM implements DoctorRepository {
     await this.ormRepository.save(partialModel);
     return partialModel;
   }
+
+  async update(
+    partialModel: Doctor,
+    name: string,
+    cpf: number,
+    dateOfBirth: Date,
+    phoneNumber: number,
+    avatar: string,
+    rg: string,
+  ): Promise<Doctor> {
+    partialModel.profile.avatar = avatar ? avatar : partialModel.profile.avatar;
+    partialModel.profile.name = name ? name : partialModel.profile.name;
+    partialModel.profile.cpf_cnpj = cpf ? cpf : partialModel.profile.cpf_cnpj;
+    partialModel.profile.rg = rg ? rg : partialModel.profile.rg;
+    partialModel.profile.dateOfBirth = dateOfBirth ? dateOfBirth : partialModel.profile.dateOfBirth;
+    partialModel.profile.phoneNumber = phoneNumber ? phoneNumber : partialModel.profile.phoneNumber;
+    await this.ormRepository.save(partialModel);
+    return partialModel;
+  }
 }

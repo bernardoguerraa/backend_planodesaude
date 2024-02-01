@@ -84,4 +84,21 @@ doctorRoutes.put(
   DoctorController.updateDoctorSecretPass
 )
 
+doctorRoutes.put(
+  "/updateDoctor",
+  celebrate({
+    [Segments.BODY]: Joi.object({
+      id: Joi.string().uuid().required(),
+      name: Joi.string().optional(),
+      cpf: Joi.number().optional(),
+      phoneNumber: Joi.number().optional(),
+      dateOfBirth: Joi.date().optional(),
+      rg: Joi.string().optional(),
+      avatar: Joi.string().optional(),
+      specialty: Joi.string().optional(),
+    }),
+  }),
+  DoctorController.updateDoctor
+)
+
 export default doctorRoutes;
