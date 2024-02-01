@@ -21,7 +21,7 @@ export default class ClientRepositoryTORM implements ClientRepository {
       .createQueryBuilder("clients")
       .innerJoinAndSelect("clients.profile", "profile")
       .leftJoinAndSelect("profile.permissions", "permissions")
-      .where("profile.cpf = :cpf AND permissions.isRevoked = false", {
+      .where("profile.cpf_cnpj = :cpf AND permissions.isRevoked = false", {
         cpf,
       })
       .getOne();
@@ -47,7 +47,6 @@ export default class ClientRepositoryTORM implements ClientRepository {
     });
     return client;
   }
-
   async findClient(): Promise<Client[]> {
     const customers = await this.ormRepository.find();
     return customers;

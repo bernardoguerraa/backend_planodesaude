@@ -45,6 +45,12 @@ export default class UsersProfilesRepositoryTORM
     });
     return result;
   }
+  async findUserById(userId: string): Promise<UserProfile> {
+    const result = await this.ormRepository.findOne({
+      where: { id: userId },
+    });
+    return result;
+  }
   async create(model: Model<UserProfile>): Promise<UserProfile> {
     let userProfile = this.ormRepository.create(model);
     userProfile = await this.ormRepository.save(userProfile);

@@ -18,7 +18,7 @@ export class CreateSpecialtyService
   }
   async execute(): Promise<Specialty> {
     const newSpecialty = {
-      name: "Oftalmo",
+      name: "Pediatria",
     } as Specialty;
 
     const specialty = await this.specialtyRepository.create(newSpecialty);

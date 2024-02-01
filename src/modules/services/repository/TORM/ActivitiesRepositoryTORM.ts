@@ -19,6 +19,27 @@ export default class ActivitiesRepositoryTORM implements ActivitiesRepository {
 
     return repositories;
   }
+  async findByClientId(clientId: string): Promise<Activity[]> {
+    const result = await this.ormRepository.find({
+      where: { client: clientId },
+    });
+
+    return result;
+  }
+  async findByAssociateCpf(associateCpf: number): Promise<Activity[]> {
+    const result = await this.ormRepository.find({
+      where: { patientCpf: associateCpf },
+    });
+
+    return result;
+  }
+  async findByProviderId(providerId: string): Promise<Activity[]> {
+    const result = await this.ormRepository.find({
+      where: { provider: providerId },
+    });
+
+    return result;
+  }
   async create(model: Model<Activity>): Promise<Activity> {
     let activity = this.ormRepository.create(model);
     activity = await this.ormRepository.save(activity);

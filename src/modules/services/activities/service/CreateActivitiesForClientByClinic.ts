@@ -22,18 +22,14 @@ interface CreateActivityServiceParams {
 }
 
 @injectable()
-export default class CreateActivitiesForAssociatesService
+export default class CreateActivitiesForClientByClinic
   implements Service<CreateActivityServiceParams, Activity>
 {
-  private associateRepository: ClientAssociateRepository;
   private clientRepository: ClientRepository;
   private userProfileRepository: UsersProfilesRepository;
   private activitiesRepository: ActivitiesRepository;
   private clinicRepository: ClinicRepository;
   constructor(
-    @inject("ClientAssociateRepository")
-    associateRepository: ClientAssociateRepository,
-
     @inject("ClientRepository")
     clientRepository: ClientRepository,
     @inject("UsersProfilesRepository")
@@ -43,7 +39,6 @@ export default class CreateActivitiesForAssociatesService
     @inject("ClinicRepository")
     clinicRepository: ClinicRepository
   ) {
-    this.associateRepository = associateRepository;
     this.clientRepository = clientRepository;
     this.userProfileRepository = userProfileRepository;
     this.activitiesRepository = activitiesRepository;
@@ -61,18 +56,15 @@ export default class CreateActivitiesForAssociatesService
     const [existingProfile] = await this.clinicRepository.find({
       id: providerId,
     });
-    console.log(existingProfile);
+
     if (!existingProfile) {
       throw new EntityPersistanceError("Esse provedor não existe!");
     }
 
-    const existingAssociate = await this.associateRepository.findByCpf(
-      patientCpf
-    );
-    if (!existingAssociate) {
+    const existingClient = await this.clientRepository.findByCpf(patientCpf);
+    if (!existingClient) {
       throw new EntityPersistanceError("Esse cliente não existe!");
     }
-    console.log(existingAssociate);
     const newActivity = {
       date: date,
       patientCpf: patientCpf,
@@ -80,7 +72,7 @@ export default class CreateActivitiesForAssociatesService
       specialty: specialty,
       profissionalName: profissionalName,
       provider: { id: existingProfile.profile.id },
-      client: { id: existingAssociate.client.id } as Client,
+      client: { id: existingClient.id } as Client,
     } as Activity;
 
     const createActivity = await this.activitiesRepository.create(newActivity);

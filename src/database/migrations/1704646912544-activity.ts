@@ -48,7 +48,7 @@ export class activity1704646912544 implements MigrationInterface {
       new TableColumn({
         name: "provider_id",
         type: "uuid",
-        isUnique: true,
+
         isNullable: true,
       })
     );
@@ -68,7 +68,7 @@ export class activity1704646912544 implements MigrationInterface {
       new TableColumn({
         name: "client_id",
         type: "uuid",
-        isUnique: true,
+
         isNullable: true,
       })
     );
@@ -88,7 +88,7 @@ export class activity1704646912544 implements MigrationInterface {
       new TableColumn({
         name: "client_associate_id",
         type: "uuid",
-        isUnique: true,
+
         isNullable: true,
       })
     );

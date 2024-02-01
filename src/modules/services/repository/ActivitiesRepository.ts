@@ -7,6 +7,9 @@ interface ActivitiesRepository extends Repository<Activity> {
    *
    * @param id clinic unique identifier
    */
+  findByClientId(clientId: string): Promise<Activity[]>;
+  findByAssociateCpf(associateCpf: number): Promise<Activity[]>;
+  findByProviderId(providerId: string): Promise<Activity[]>;
 }
 
 export default ActivitiesRepository;
