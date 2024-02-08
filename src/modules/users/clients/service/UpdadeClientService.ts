@@ -6,7 +6,7 @@ import EntityPersistanceError from "../../../../shared/aplication/error/EntityPe
 interface UpdateClientsServiceParams {
   id: string;
   name: string;
-  cpf: string;
+  cpf: number;
   rg: string;
   phoneNumber: number;
   dateOfBirth: Date;

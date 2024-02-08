@@ -101,4 +101,14 @@ doctorRoutes.put(
   DoctorController.updateDoctor
 )
 
+doctorRoutes.delete(
+  "/deleteDoctor/:id",
+  celebrate({
+    [Segments.PARAMS]: Joi.object({
+      id: Joi.string().uuid().required()
+    }),
+  }),
+  DoctorController.deleteDoctor
+)
+
 export default doctorRoutes;

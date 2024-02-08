@@ -8,6 +8,7 @@ import { GetDoctorByIdService } from "../service/GetDoctorByIdService";
 import { UpdateDoctorAddressService } from "../service/UpdateDoctorAddressService";
 import { UpdateDoctorSecretPassService } from "../service/UpdateDoctorSecretPassService";
 import { UpdateDoctorService } from "../service/UpdateDoctorService";
+import DeleteDoctorService from "../service/DeleteDoctorService";
 
 export default class DoctorController {
   static async createDoctor(
@@ -146,5 +147,19 @@ export default class DoctorController {
       phoneNumber,
     });
     return response.status(200).json(doctor);
+  }
+
+  static async deleteDoctor(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id } = request.params;
+
+    const deleteDoctorService = doctorContainer.resolve(
+      DeleteDoctorService
+    );
+    const updatedoctor = await deleteDoctorService.execute({id});
+
+    return response.status(202).json(updatedoctor);
   }
 }

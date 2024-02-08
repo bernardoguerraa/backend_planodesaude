@@ -98,4 +98,14 @@ clinicRoutes.put(
   ClinicController.updateClinicSecretPass
 )
 
+clinicRoutes.delete(
+  "/deleteClinic/:id",
+  celebrate({
+    [Segments.PARAMS]: Joi.object({
+      id: Joi.string().uuid().required()
+    }),
+  }),
+  ClinicController.deleteClinic
+)
+
 export default clinicRoutes;

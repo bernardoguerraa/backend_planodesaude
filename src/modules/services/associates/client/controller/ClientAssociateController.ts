@@ -83,6 +83,6 @@ export default class ClientAssociateController {
       associateId,
     });
 
-    return response.status(201).json(associate);
+    return response.status(202).json(associate);
   }
 }

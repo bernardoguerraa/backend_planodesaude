@@ -8,6 +8,7 @@ import { UpdateClientsService } from "../service/UpdadeClientService";
 import { UpdateClientAddressService } from "../service/UpdateClientAddressService";
 import { UpdateClientSecretPassService } from "../service/UpdateClientSecretpass";
 import AuthenticateService from "../../authenticate/service/AuthenticateService";
+import DeleteClientService from "../service/DeleteClientService";
 export default class ClientController {
   static async createClient(
     request: Request,
@@ -143,5 +144,20 @@ export default class ClientController {
       cep,
     });
     return response.status(200).json(client);
+  }
+
+  static async deleteClient(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id } = request.params;
+
+    const deleteclient = clientContainer.resolve(DeleteClientService);
+
+    const client = await deleteclient.execute({
+      id,
+    });
+    
+    return response.status(202).json(client);
   }
 }

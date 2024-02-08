@@ -8,6 +8,7 @@ import { UpdateClinicService } from "../service/UpdateClinicService";
 import AuthenticateService from "../../authenticate/service/AuthenticateService";
 import { UpdateClinicAddressService } from "../service/UpdateClinicAddressService";
 import { UpdateClinicSecretPassService } from "../service/UpdateClinicSecretpassService"
+import DeleteClinicService from "../service/DeleteClinicService";
 export default class ClinicController {
   static async createClinic(
     request: Request,
@@ -139,5 +140,20 @@ export default class ClinicController {
       password,
     });
     return response.status(200).json(clinic);
+  }
+
+  static async deleteClinic(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id } = request.params;
+    
+    const deleteClinic = clinicContainer.resolve(DeleteClinicService);
+
+    const updateClinic = await deleteClinic.execute({
+      id
+    });
+
+    return response.status(202).json(updateClinic);
   }
 }
