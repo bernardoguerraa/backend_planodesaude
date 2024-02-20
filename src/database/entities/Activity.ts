@@ -32,6 +32,9 @@ export default class Activity {
   @Column({ name: "specialty" })
   specialty: string;
 
+  @Column({name: 'medical_procedure'})
+  medical_procedure: string;
+
   @ManyToOne(
     () => ClientAssociate,
     (clientAssociate) => clientAssociate.activity

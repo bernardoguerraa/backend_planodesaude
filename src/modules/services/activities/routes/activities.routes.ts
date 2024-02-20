@@ -15,9 +15,20 @@ activitiesRoutes.post(
       profissionalName: Joi.string().required(),
       providerId: Joi.string().required(),
       specialty: Joi.string().required(),
+      medical_procedure: Joi.string().required(),
     }),
   }),
   ActivitiesController.register
+);
+
+activitiesRoutes.get(
+  '/findByCnpj/:cnpj',
+  celebrate({
+    [Segments.PARAMS]: Joi.object({
+      cnpj: Joi.number().required(),
+    }),
+  }),
+  ActivitiesController.GetClinicByCnpj
 );
 
 export default activitiesRoutes;

@@ -26,6 +26,7 @@ interface ClinicRepository
     cep: number,
   ): Promise<Clinic>;
   updateSecretPass(partialModel: Clinic, password: string): Promise<Clinic>;
+  findClinicByCnpj(cnpj: number):Promise<Clinic>;
 }
 
 export default ClinicRepository;

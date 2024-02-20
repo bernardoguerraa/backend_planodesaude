@@ -27,14 +27,26 @@ export default class Request {
   @Column({name: "specialty", array:true, default:[]})
   specialty:string;
 
-  @Column()
+  @Column({name: 'email'})
   email:string;
 
   @Column({name: "phone_number"})
   phoneNumber: number;
 
-  @Column()
+  @Column({name: 'password'})
   password:string;
+
+  @Column({name: 'cpf_cnpj'})
+  cpf_cnpj:number;
+
+  @Column({name: 'rg'})
+  rg: string;
+
+  @Column({name: 'avatar'})
+  avatar: string;
+
+  @Column({name: 'regular_payment'})
+  regular_payment: boolean;
 
   constructor(){
     if(!this.id){
