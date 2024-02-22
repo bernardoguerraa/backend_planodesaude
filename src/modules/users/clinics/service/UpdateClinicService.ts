@@ -1,9 +1,9 @@
-import Client from "../../../../database/entities/Client";
+import Clinic from "../../../../database/entities/Clinic";
 import { inject, injectable } from "tsyringe";
-import ClientRepository from "../../repository/ClientRepository";
+import ClinicRepository from "../../repository/ClinicRepository";
 import Service from "../../../../database/repositories/Services";
 import EntityPersistanceError from "../../../../shared/aplication/error/EntityPersistanceError";
-interface UpdateClientsServiceParams {
+interface UpdateClinicServiceParams {
   id: string;
   name: string;
   cpf: number;
@@ -14,15 +14,15 @@ interface UpdateClientsServiceParams {
 }
 
 @injectable()
-export class UpdateClientsService
-  implements Service<UpdateClientsServiceParams, Client>
+export class UpdateClinicService
+  implements Service<UpdateClinicServiceParams, Clinic>
 {
-  private clientRepository: ClientRepository;
+  private clinicRepository: ClinicRepository;
   constructor(
-    @inject("ClientRepository")
-    clientRepository: ClientRepository
+    @inject("ClinicRepository")
+    clinicRepository: ClinicRepository
   ) {
-    this.clientRepository = clientRepository;
+    this.clinicRepository = clinicRepository;
   }
   async execute({
     id,
@@ -32,22 +32,21 @@ export class UpdateClientsService
     phoneNumber,
     avatar,
     rg,
-  }: UpdateClientsServiceParams): Promise<Client> {
-    const existingProfile = await this.clientRepository.findById(id);
+  }: UpdateClinicServiceParams): Promise<Clinic> {
+    const existingProfile = await this.clinicRepository.findClinicById(id);
     if (!existingProfile) {
       throw new EntityPersistanceError("Usuario não encontrado");
     }
 
-    const updateClient = await this.clientRepository.update(
+    const updateClinic = await this.clinicRepository.update(
       existingProfile,
       name,
       cpf,
       dateOfBirth,
       phoneNumber,
       avatar,
-      rg
+      rg,
     );
-    console.log(updateClient);
-    return updateClient;
+    return updateClinic;
   }
 }

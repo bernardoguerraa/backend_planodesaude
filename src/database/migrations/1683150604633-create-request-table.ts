@@ -44,6 +44,23 @@ export class CreateRequestTable1683150604633 implements MigrationInterface {
                 default: 'now()',
               },
               {
+                name: 'cpf_cnpj',
+                type: 'numeric',
+                isUnique:true,
+                isNullable:false,
+              },
+              {
+                name: 'rg',
+                type: 'varchar',
+                isUnique:true,
+                isNullable:false,
+              },
+              {
+                name: 'avatar',
+                type: 'varchar',
+                isNullable:true,
+              },
+              {
                 name: 'email',
                 type: 'varchar',
                 length:"300",
@@ -62,6 +79,12 @@ export class CreateRequestTable1683150604633 implements MigrationInterface {
                 type: 'varchar',
                 length:'200',
                 isNullable: true,
+              },
+              {
+                name: 'regular_payment',
+                type: 'boolean',
+                isNullable: true,
+                default: false,
               },
             ],
           }));

@@ -2,8 +2,13 @@ import { Request, Response } from "express";
 import Clinic from "../../../../database/entities/Clinic";
 import { clinicContainer } from "../../../../shared/aplication/tsyringe/containers/authentication";
 import { CreateClinicService } from "../service/CreateClinicService";
-import { GetClinicsService } from "../service/GetClinicsService";
+import { GetClinicsService } from "../service/GetClinicsService"; 
+import { GetClinicByIdService } from "../service/GetClinicByIdService";
+import { UpdateClinicService } from "../service/UpdateClinicService";
 import AuthenticateService from "../../authenticate/service/AuthenticateService";
+import { UpdateClinicAddressService } from "../service/UpdateClinicAddressService";
+import { UpdateClinicSecretPassService } from "../service/UpdateClinicSecretpassService"
+import DeleteClinicService from "../service/DeleteClinicService";
 export default class ClinicController {
   static async createClinic(
     request: Request,
@@ -59,14 +64,96 @@ export default class ClinicController {
     return response.status(200).json({ agent, token });
   }
 
-  static async GetClinics(
+  static async getClinics(
     request: Request,
     response: Response
   ): Promise<Response> {
-    const authenticateBarberService =
-      clinicContainer.resolve(GetClinicsService);
-    const result = await authenticateBarberService.execute();
+    const getClinicsService = clinicContainer.resolve(GetClinicsService);
 
-    return response.status(200).json({ result });
+    const clinic = await getClinicsService.execute();
+
+    return response.status(200).json(clinic);
+  }
+
+  static async getClinicById(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id } = request.params;
+
+    const getClinicsService = clinicContainer.resolve(GetClinicByIdService);
+
+    const clinic = await getClinicsService.execute({ id });
+
+    return response.status(200).json(clinic);
+  }
+
+  static async updateClinic(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id, name, phoneNumber, dateOfBirth, cpf, avatar, rg} =
+      request.body;
+    const updateClinicService = clinicContainer.resolve(UpdateClinicService);
+    const clinic = await updateClinicService.execute({
+      id,
+      name,
+      phoneNumber,
+      dateOfBirth,
+      cpf,
+      avatar,
+      rg,
+    });
+    return response.status(200).json(clinic);
+  }
+
+  static async updateClinicAddress(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id, streetName, number, neighbourhood, city, state, cep } = request.body;
+    const updateClinicsService = clinicContainer.resolve(
+      UpdateClinicAddressService
+    );
+    const clinic = await updateClinicsService.execute({
+      id,
+      streetName,
+      number,
+      neighbourhood,
+      city,
+      state,
+      cep
+    });
+    return response.status(200).json(clinic);
+  }
+
+  static async updateClinicSecretPass(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id, password } = request.body;
+    const updateClinicService = clinicContainer.resolve(
+      UpdateClinicSecretPassService
+    );
+    const clinic = await updateClinicService.execute({
+      id,
+      password,
+    });
+    return response.status(200).json(clinic);
+  }
+
+  static async deleteClinic(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { id } = request.params;
+    
+    const deleteClinic = clinicContainer.resolve(DeleteClinicService);
+
+    const updateClinic = await deleteClinic.execute({
+      id
+    });
+
+    return response.status(202).json(updateClinic);
   }
 }

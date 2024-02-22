@@ -40,6 +40,11 @@ export class activity1704646912544 implements MigrationInterface {
             type: "varchar",
             default: false,
           },
+          {
+            name: 'medical_procedure',
+            type: 'varchar',
+            isNullable: false,
+          },
         ],
       })
     );

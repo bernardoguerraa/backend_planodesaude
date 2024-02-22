@@ -14,6 +14,7 @@ activitiesRoutes.post(
       profissionalName: Joi.string().required(),
       providerId: Joi.string().required(),
       specialty: Joi.string().required(),
+      medical_procedure: Joi.string().required(),
     }),
   }),
   ActivitiesController.registerActiviteDoctorAssociate
@@ -92,4 +93,6 @@ activitiesRoutes.get(
   }),
   ActivitiesController.getByProviderID
 );
+
+
 export default activitiesRoutes;

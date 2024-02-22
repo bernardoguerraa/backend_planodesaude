@@ -42,6 +42,70 @@ clinicRoutes.post(
   ClinicController.authenticate
 );
 
-clinicRoutes.get("/getClinics", ClinicController.GetClinics);
+clinicRoutes.get("/getClinics", ClinicController.getClinics);
+
+clinicRoutes.get(
+  "/getClinic/:id",
+  celebrate({
+    [Segments.PARAMS]: Joi.object({
+      id: Joi.string().uuid().required(),
+    }),
+  }),
+  ClinicController.getClinicById
+)
+
+clinicRoutes.put(
+  "/updateClinic/",
+  celebrate({
+    [Segments.BODY]:Joi.object({
+      id: Joi.string().uuid().required(),
+      name: Joi.string().optional(),
+      cpf: Joi.number().optional(),
+      dateOfBirth: Joi.date().optional(),
+      phoneNumber: Joi.number().optional(),
+      avatar: Joi.string().optional(),
+      rg: Joi.string().optional(),
+      specialty: Joi.string().optional(),
+    }),
+  }),
+  ClinicController.updateClinic
+);
+
+clinicRoutes.put(
+  "/updateClinicAddresses",
+  celebrate({
+    [Segments.BODY]:Joi.object({
+      id: Joi.string().uuid().required(),
+      streetName: Joi.string().optional(),
+      cep: Joi.number().optional(),
+      number: Joi.number().optional(),
+      neighbourhood: Joi.string().optional(),
+      city: Joi.string().optional(),
+      state: Joi.string().optional(),
+    }),
+  }),
+  ClinicController.updateClinicAddress
+)
+
+clinicRoutes.put(
+  "/updateClinicSecretPass",
+  celebrate({
+    [Segments.BODY]: Joi.object({
+      id: Joi.string().uuid().required(),
+      password: Joi.string().required(),
+    }),
+  }),
+  ClinicController.updateClinicSecretPass
+)
+
+clinicRoutes.delete(
+  "/deleteClinic/:id",
+  celebrate({
+    [Segments.PARAMS]: Joi.object({
+      id: Joi.string().uuid().required()
+    }),
+  }),
+  ClinicController.deleteClinic
+)
 
 export default clinicRoutes;

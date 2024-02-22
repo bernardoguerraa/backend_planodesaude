@@ -42,6 +42,7 @@ export default class Doctor {
 
   @OneToOne(() => UserProfile, (userProfile) => userProfile.doctor, {
     eager: true,
+    cascade: true,
   })
   @JoinColumn({
     name: "profile_id",

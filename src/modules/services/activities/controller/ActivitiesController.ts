@@ -7,6 +7,7 @@ import CreateActivitiesForClientByClinic from "../service/CreateActivitiesForCli
 import GetActivitesByAssociateCpfService from "../service/GetActivitesByAssociateCpfService";
 import GetActivitesByClientIdService from "../service/GetActivitesByClientIdService";
 import GetActivitiesByProviderIdService from "../service/GetActivitiesByProviderIdService";
+import { GetClinicActivityService } from "../service/GetClinicActivityService";
 export default class ActivitiesController {
   static async registerActiviteDoctorAssociate(
     request: Request,

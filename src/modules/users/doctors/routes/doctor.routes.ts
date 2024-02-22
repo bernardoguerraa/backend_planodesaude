@@ -27,6 +27,7 @@ doctorRoutes.post(
           neighbourhood: Joi.string().optional(),
           city: Joi.string().optional(),
           state: Joi.string().optional(),
+          cep: Joi.number().optional(),
         })
       ),
     }),
@@ -44,5 +45,71 @@ doctorRoutes.post(
   }),
   DoctorController.authenticate
 );
+
+doctorRoutes.get("/getDoctor", DoctorController.getDoctor);
+
+doctorRoutes.get(
+  "/getDoctor/:id",
+  celebrate({
+    [Segments.PARAMS]: Joi.object({
+      id: Joi.string().uuid().required(),
+    }),
+  }),
+  DoctorController.getDoctorById
+);
+
+doctorRoutes.put(
+  "/updateDoctorAddress",
+  celebrate({
+    [Segments.BODY]: Joi.object({
+      id: Joi.string().uuid().required(),
+      streetName: Joi.string().optional(),
+      cep: Joi.number().optional(),
+      number: Joi.number().optional(),
+      neighbourhood: Joi.string().optional(),
+      city: Joi.string().optional(),
+      state: Joi.string().optional(),
+    }),
+  }),
+  DoctorController.UpdateDoctorAddress
+);
+
+doctorRoutes.put(
+  "/updateDoctorSecretPass",
+  celebrate({
+    [Segments.BODY]: Joi.object({
+      id: Joi.string().uuid().required(),
+      password: Joi.string().required(),
+    }),
+  }),
+  DoctorController.updateDoctorSecretPass
+)
+
+doctorRoutes.put(
+  "/updateDoctor",
+  celebrate({
+    [Segments.BODY]: Joi.object({
+      id: Joi.string().uuid().required(),
+      name: Joi.string().optional(),
+      cpf: Joi.number().optional(),
+      phoneNumber: Joi.number().optional(),
+      dateOfBirth: Joi.date().optional(),
+      rg: Joi.string().optional(),
+      avatar: Joi.string().optional(),
+      specialty: Joi.string().optional(),
+    }),
+  }),
+  DoctorController.updateDoctor
+)
+
+doctorRoutes.delete(
+  "/deleteDoctor/:id",
+  celebrate({
+    [Segments.PARAMS]: Joi.object({
+      id: Joi.string().uuid().required()
+    }),
+  }),
+  DoctorController.deleteDoctor
+)
 
 export default doctorRoutes;

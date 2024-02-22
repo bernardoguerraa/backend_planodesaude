@@ -95,4 +95,14 @@ clientRoutes.put(
   }),
   ClientController.updateClientSecretPass
 );
+
+clientRoutes.delete(
+  "/deleteClient/:id",
+  celebrate({
+    [Segments.PARAMS]: Joi.object({
+      id: Joi.string().uuid().required(),
+    }),
+  }),
+  ClientController.deleteClient
+)
 export default clientRoutes;
