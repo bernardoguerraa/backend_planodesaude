@@ -31,6 +31,27 @@ export default class ClientAssociateRepositoryTORM
 
     return findAssocaiteServiceById;
   }
+  async findAllClientAssociates(clientId: string): Promise<ClientAssociate[]> {
+    const associates = await this.ormRepository.find({
+      where: { client: { id: clientId } },
+    });
+    return associates;
+  }
+  async findByCpf(cpf: number): Promise<ClientAssociate> {
+    const result = await this.ormRepository
+      .createQueryBuilder("client_associate")
+      .innerJoinAndSelect("client_associate.profile", "profile")
+      .leftJoinAndSelect("profile.permissions", "permissions")
+      .where("profile.cpf_cnpj = :cpf AND permissions.isRevoked = false", {
+        cpf,
+      })
+      .getOne();
+
+    const clientAssociate = await this.ormRepository.findOne({
+      where: { id: result?.id },
+    });
+    return clientAssociate;
+  }
 
   async create(model: Model<ClientAssociate>): Promise<ClientAssociate> {
     let associate = this.ormRepository.create(model);
@@ -42,7 +63,8 @@ export default class ClientAssociateRepositoryTORM
   async updateAssociate(
     partialModel: ClientAssociate
   ): Promise<ClientAssociate> {
-    return partialModel;
+    const updatedAssociate = await this.ormRepository.save(partialModel);
+    return updatedAssociate;
   }
 
   async updateById(id: string, partialModel: ClientAssociate): Promise<void> {

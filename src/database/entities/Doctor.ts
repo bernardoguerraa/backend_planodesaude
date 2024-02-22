@@ -25,7 +25,7 @@ export default class Doctor {
 
   @ManyToMany(() => Addresses, (Addresses) => Addresses.doctor, {
     eager: true,
-    cascade: ["insert"],
+    cascade: true,
   })
   @JoinTable({
     name: "doctors_addresses",

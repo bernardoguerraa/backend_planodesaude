@@ -6,6 +6,7 @@ import EntityPersistanceError from "../../../../shared/aplication/error/EntityPe
 interface UpdateClientsServiceParams {
   id: string;
   streetName: string;
+  cep: number;
   number: number;
   city: string;
   state: string;
@@ -30,6 +31,7 @@ export class UpdateClientAddressService
     number,
     state,
     streetName,
+    cep,
   }: UpdateClientsServiceParams): Promise<Client> {
     const existingProfile = await this.clientRepository.findById(id);
     if (!existingProfile) {
@@ -42,6 +44,7 @@ export class UpdateClientAddressService
       number,
       neighbourhood,
       city,
+      cep,
       state
     );
 

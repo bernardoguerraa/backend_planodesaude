@@ -22,6 +22,7 @@ doctorRoutes.post(
         Joi.object({
           streetName: Joi.string().optional(),
           number: Joi.number().optional(),
+          cep: Joi.number().optional(),
           adjunct: Joi.string().optional(),
           neighbourhood: Joi.string().optional(),
           city: Joi.string().optional(),

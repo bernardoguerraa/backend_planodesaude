@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Clinic from "../../../../database/entities/Clinic";
 import { clinicContainer } from "../../../../shared/aplication/tsyringe/containers/authentication";
 import { CreateClinicService } from "../service/CreateClinicService";
+import { GetClinicsService } from "../service/GetClinicsService";
 import AuthenticateService from "../../authenticate/service/AuthenticateService";
 export default class ClinicController {
   static async createClinic(
@@ -12,10 +13,11 @@ export default class ClinicController {
       email,
       password,
       addresses,
-      cpf,
+      cpf_cnpj,
       dateOfBirth,
       phoneNumber,
       name,
+      rg,
       specialty,
     } = request.body;
     const createClinicService = clinicContainer.resolve(CreateClinicService);
@@ -23,11 +25,12 @@ export default class ClinicController {
     let clinic = await createClinicService.execute({
       profile: {
         name,
+        rg,
         email,
         password,
         dateOfBirth,
         phoneNumber,
-        cpf,
+        cpf_cnpj,
       },
       addresses,
       specialty,
@@ -54,5 +57,16 @@ export default class ClinicController {
     });
 
     return response.status(200).json({ agent, token });
+  }
+
+  static async GetClinics(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const authenticateBarberService =
+      clinicContainer.resolve(GetClinicsService);
+    const result = await authenticateBarberService.execute();
+
+    return response.status(200).json({ result });
   }
 }

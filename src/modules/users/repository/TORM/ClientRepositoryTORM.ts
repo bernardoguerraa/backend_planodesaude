@@ -21,7 +21,7 @@ export default class ClientRepositoryTORM implements ClientRepository {
       .createQueryBuilder("clients")
       .innerJoinAndSelect("clients.profile", "profile")
       .leftJoinAndSelect("profile.permissions", "permissions")
-      .where("profile.cpf = :cpf AND permissions.isRevoked = false", {
+      .where("profile.cpf_cnpj = :cpf AND permissions.isRevoked = false", {
         cpf,
       })
       .getOne();
@@ -47,7 +47,6 @@ export default class ClientRepositoryTORM implements ClientRepository {
     });
     return client;
   }
-
   async findClient(): Promise<Client[]> {
     const customers = await this.ormRepository.find();
     return customers;
@@ -72,7 +71,7 @@ export default class ClientRepositoryTORM implements ClientRepository {
   async update(
     partialModel: Client,
     name: string,
-    cpf: string,
+    cpf: number,
     dateOfBirth: Date,
     phoneNumber: number,
     avatar: string,
@@ -98,6 +97,7 @@ export default class ClientRepositoryTORM implements ClientRepository {
     number: number,
     neighbourhood: string,
     city: string,
+    cep: number,
     state: string
   ): Promise<Client> {
     partialModel.addresses[0].streetName = streetName
@@ -115,11 +115,10 @@ export default class ClientRepositoryTORM implements ClientRepository {
     partialModel.addresses[0].state = state
       ? state
       : partialModel.addresses[0].state;
-
+    partialModel.addresses[0].cep = cep ? cep : partialModel.addresses[0].cep;
     await this.ormRepository.save(partialModel);
     return partialModel;
   }
-
   async updateSecretPass(
     partialModel: Client,
     password: string

@@ -1,11 +1,12 @@
-import UsersProfilesRepository from '../UsersProfilesRepository';
-import Filters from '../../../../database/repositories/Filter';
-import Model from '../../../../database/repositories/Model';
-import { getRepository, Repository } from 'typeorm';
-import UserProfile from '../../../../database/entities/UserProfile';
+import UsersProfilesRepository from "../UsersProfilesRepository";
+import Filters from "../../../../database/repositories/Filter";
+import Model from "../../../../database/repositories/Model";
+import { getRepository, Repository } from "typeorm";
+import UserProfile from "../../../../database/entities/UserProfile";
 
 export default class UsersProfilesRepositoryTORM
-implements UsersProfilesRepository {
+  implements UsersProfilesRepository
+{
   private ormRepository: Repository<UserProfile>;
 
   constructor() {
@@ -19,7 +20,7 @@ implements UsersProfilesRepository {
 
     return userProfile;
   }
-  async findByEmail(email: string): Promise<UserProfile| undefined> {
+  async findByEmail(email: string): Promise<UserProfile | undefined> {
     const result = await this.ormRepository
       .createQueryBuilder("users_profiles")
       .leftJoinAndSelect("users_profiles.permissions", "permissions")
@@ -30,9 +31,24 @@ implements UsersProfilesRepository {
 
     return result;
   }
+  async findUserByCpf(cpf: number): Promise<UserProfile> {
+    console.log(cpf);
+    const result = await this.ormRepository.findOne({
+      where: { cpf_cnpj: cpf },
+    });
+    return result;
+  }
 
-  async findUser(email:string): Promise<UserProfile> {
-    const result = await this.ormRepository.findOne({where:{email:email}});
+  async findUser(email: string): Promise<UserProfile> {
+    const result = await this.ormRepository.findOne({
+      where: { email: email },
+    });
+    return result;
+  }
+  async findUserById(userId: string): Promise<UserProfile> {
+    const result = await this.ormRepository.findOne({
+      where: { id: userId },
+    });
     return result;
   }
   async create(model: Model<UserProfile>): Promise<UserProfile> {

@@ -7,14 +7,17 @@ import {
   PrimaryGeneratedColumn,
   JoinColumn,
   JoinTable,
+  ManyToOne,
 } from "typeorm";
 import Client from "./Client";
 import Doctor from "./Doctor";
 import Clinic from "./Clinic";
+import ClientAssociate from "./ClientAssociate";
 import UserPermission from "./UserPermission";
 import ProviderSpecialty from "./ProviderSpecialty";
 
 import { v4 as uuid } from "uuid";
+import Activity from "./Activity";
 
 @Entity("users_profiles")
 export default class UserProfile {
@@ -28,7 +31,7 @@ export default class UserProfile {
   email: string;
 
   @Column({ name: "cpf_cnpj" })
-  cpf_cnpj: string;
+  cpf_cnpj: number;
 
   @Column({ name: "date_of_birth" })
   dateOfBirth: Date;
@@ -53,6 +56,12 @@ export default class UserProfile {
 
   @OneToOne(() => Clinic, (clinic) => clinic.profile)
   clinic: Clinic;
+
+  @OneToOne(() => ClientAssociate, (clientAssociate) => clientAssociate.profile)
+  clientAssociate: ClientAssociate;
+
+  @OneToMany(() => Activity, (activity) => activity.provider)
+  activity: Activity[];
 
   @OneToMany(() => UserPermission, (userPermission) => userPermission.profile, {
     eager: true,

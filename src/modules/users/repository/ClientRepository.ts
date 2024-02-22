@@ -7,10 +7,11 @@ interface ClientRepository
     AuthenticableEntityRepository<Client> {
   findClient(): Promise<Client[]>;
   findById(id: string): Promise<Client>;
+  findByCpf(cpf: number): Promise<Client>;
   update(
     partialModel: Client,
     name: string,
-    cpf: string,
+    cpf: number,
     dateOfBirth: Date,
     phoneNumber: number,
     avatar: string,
@@ -22,6 +23,7 @@ interface ClientRepository
     number: number,
     neighbourhood: string,
     city: string,
+    cep: number,
     state: string
   ): Promise<Client>;
 
