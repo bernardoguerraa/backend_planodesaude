@@ -20,6 +20,7 @@ interface CreateActivityServiceParams {
   price: number;
   date: Date;
   specialty: string;
+  medical_procedure: string;
 }
 
 @injectable()
@@ -50,6 +51,7 @@ export default class CreateActivitesForClientByDoctor
     profissionalName,
     providerId,
     specialty,
+    medical_procedure,
   }: CreateActivityServiceParams): Promise<Activity> {
     const [existingProfile] = await this.doctorRepository.find({
       id: providerId,
@@ -71,6 +73,7 @@ export default class CreateActivitesForClientByDoctor
       profissionalName: profissionalName,
       provider: { id: existingProfile.profile.id },
       client: { id: existingClient.id } as Client,
+      medical_procedure: medical_procedure,
     } as Activity;
 
     const createActivity = await this.activitiesRepository.create(newActivity);

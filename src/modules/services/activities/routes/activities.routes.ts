@@ -30,6 +30,7 @@ activitiesRoutes.post(
       profissionalName: Joi.string().required(),
       providerId: Joi.string().required(),
       specialty: Joi.string().required(),
+      medical_procedure: Joi.string().required(),
     }),
   }),
   ActivitiesController.registerActiviteDoctorClient
@@ -45,6 +46,7 @@ activitiesRoutes.post(
       profissionalName: Joi.string().required(),
       providerId: Joi.string().required(),
       specialty: Joi.string().required(),
+      medical_procedure: Joi.string().required(),
     }),
   }),
   ActivitiesController.registerActiviteClinicAssociate
@@ -60,12 +62,13 @@ activitiesRoutes.post(
       profissionalName: Joi.string().required(),
       providerId: Joi.string().required(),
       specialty: Joi.string().required(),
+      medical_procedure: Joi.string().required(),
     }),
   }),
   ActivitiesController.registerActiviteClinicClient
 );
 
-activitiesRoutes.post(
+activitiesRoutes.get(
   "/getByCpf",
   celebrate({
     [Segments.BODY]: Joi.object({
@@ -94,5 +97,24 @@ activitiesRoutes.get(
   ActivitiesController.getByProviderID
 );
 
+activitiesRoutes.get(
+  "/getByClinicCnpj",
+  celebrate({
+    [Segments.BODY]: Joi.object({
+      cnpj: Joi.number().required(),
+    }),
+  }),
+  ActivitiesController.getByCnpj
+);
+
+activitiesRoutes.get(
+  "/getByDoctorCpf",
+  celebrate({
+    [Segments.BODY]: Joi.object({
+      cpf: Joi.number().required(),
+    }),
+  }),
+  ActivitiesController.getByDoctorCpf
+);
 
 export default activitiesRoutes;

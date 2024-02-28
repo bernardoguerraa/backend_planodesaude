@@ -39,6 +39,13 @@ export default class UsersProfilesRepositoryTORM
     return result;
   }
 
+  async findUserByCnpj(cnpj: number):Promise<UserProfile> {
+    const result = await this.ormRepository.findOne({
+      where: {cpf_cnpj: cnpj},
+    });
+    return result;
+  }
+
   async findUser(email: string): Promise<UserProfile> {
     const result = await this.ormRepository.findOne({
       where: { email: email },

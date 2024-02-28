@@ -33,6 +33,7 @@ export default class ActivitiesRepositoryTORM implements ActivitiesRepository {
 
     return result;
   }
+
   async findByProviderId(providerId: string): Promise<Activity[]> {
     const result = await this.ormRepository.find({
       where: { provider: providerId },

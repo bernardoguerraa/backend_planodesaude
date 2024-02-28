@@ -7,7 +7,8 @@ import CreateActivitiesForClientByClinic from "../service/CreateActivitiesForCli
 import GetActivitesByAssociateCpfService from "../service/GetActivitesByAssociateCpfService";
 import GetActivitesByClientIdService from "../service/GetActivitesByClientIdService";
 import GetActivitiesByProviderIdService from "../service/GetActivitiesByProviderIdService";
-import { GetClinicActivityService } from "../service/GetClinicActivityService";
+import GetActivitiesByClinicCnpjService from "../service/GetActivitiesByClinicCnpjService";
+import GetActivitiesByDoctorCpfService from "../service/GetActivitiesByDoctorCpfService";
 export default class ActivitiesController {
   static async registerActiviteDoctorAssociate(
     request: Request,
@@ -34,7 +35,7 @@ export default class ActivitiesController {
     request: Request,
     response: Response
   ): Promise<Response> {
-    const { providerId, patientCpf, profissionalName, price, date, specialty } =
+    const { providerId, patientCpf, profissionalName, price, date, specialty, medical_procedure } =
       request.body;
 
     const result = container.resolve(CreateActivitesForClientByDoctor);
@@ -46,6 +47,7 @@ export default class ActivitiesController {
       profissionalName,
       providerId,
       specialty,
+      medical_procedure,
     });
 
     return response.status(201).json(activity);
@@ -54,7 +56,7 @@ export default class ActivitiesController {
     request: Request,
     response: Response
   ): Promise<Response> {
-    const { providerId, patientCpf, profissionalName, price, date, specialty } =
+    const { providerId, patientCpf, profissionalName, price, date, specialty, medical_procedure} =
       request.body;
 
     const result = container.resolve(
@@ -68,6 +70,7 @@ export default class ActivitiesController {
       profissionalName,
       providerId,
       specialty,
+      medical_procedure,
     });
 
     return response.status(201).json(activity);
@@ -76,7 +79,7 @@ export default class ActivitiesController {
     request: Request,
     response: Response
   ): Promise<Response> {
-    const { providerId, patientCpf, profissionalName, price, date, specialty } =
+    const { providerId, patientCpf, profissionalName, price, date, specialty, medical_procedure } =
       request.body;
 
     const result = container.resolve(CreateActivitiesForClientByClinic);
@@ -88,6 +91,7 @@ export default class ActivitiesController {
       profissionalName,
       providerId,
       specialty,
+      medical_procedure,
     });
 
     return response.status(201).json(activity);
@@ -107,6 +111,21 @@ export default class ActivitiesController {
 
     return response.status(201).json(activity);
   }
+
+  static async getByCnpj(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { cnpj } = request.body;
+
+    const result = container.resolve(GetActivitiesByClinicCnpjService);
+
+    const activity = await result.execute({
+      cnpj,
+    });
+    return response.status(201).json(activity);
+  }
+
   static async getByClientId(
     request: Request,
     response: Response
@@ -134,6 +153,20 @@ export default class ActivitiesController {
       providerId,
     });
 
+    return response.status(201).json(activity);
+  }
+
+  static async getByDoctorCpf(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { cpf } = request.body;
+
+    const result = container.resolve(GetActivitiesByDoctorCpfService);
+
+    const activity = await result.execute({
+      cpf,
+    });
     return response.status(201).json(activity);
   }
 }
