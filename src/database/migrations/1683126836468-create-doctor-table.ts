@@ -1,9 +1,9 @@
-import {
-  MigrationInterface,
-  QueryRunner,
-  Table,
+import { 
+  MigrationInterface, 
+  QueryRunner, 
+  Table, 
   TableColumn,
-  TableForeignKey,
+  TableForeignKey
 } from "typeorm";
 
 export class CreateDoctorTable1683126836468 implements MigrationInterface {
@@ -27,12 +27,19 @@ export class CreateDoctorTable1683126836468 implements MigrationInterface {
           {
             name: "regional_council",
             type: "varchar",
-            length: "50",
-            isNullable: true,
+            length: "50", 
+            isNullable: true, 
           },
         ],
       })
     );
+
+    await queryRunner.changeColumn("doctors", "regional_council", new TableColumn({
+      name: "regional_council",
+      type: "varchar",
+      length: "50",
+      isNullable: true, 
+    }));
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
