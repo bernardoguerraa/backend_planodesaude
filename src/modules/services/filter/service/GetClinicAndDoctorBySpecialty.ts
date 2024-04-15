@@ -1,9 +1,5 @@
-import Clinic from "../../../../database/entities/Clinic";
-import Doctor from "../../../../database/entities/Doctor";
 import ProviderSpecialty from "../../../../database/entities/ProviderSpecialty";
 import ProviderSpecialtyRepository from "../../../users/repository/ProviderSpecialtyRepository";
-import UserProfile from "../../../../database/entities/UserProfile";
-import Specialty from "../../../../database/entities/Specialty";
 import SpecialtyRepository from "../../../users/repository/SpecialtyRepository";
 import { inject, injectable } from "tsyringe";
 

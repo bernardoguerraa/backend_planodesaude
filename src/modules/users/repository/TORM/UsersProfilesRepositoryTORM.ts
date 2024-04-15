@@ -46,6 +46,13 @@ export default class UsersProfilesRepositoryTORM
     return result;
   }
 
+  async findUserByName(name: string): Promise<UserProfile> {
+    const result = await this.ormRepository.findOne({
+      where: {name: name},
+    });
+    return result;
+  }
+
   async findUser(email: string): Promise<UserProfile> {
     const result = await this.ormRepository.findOne({
       where: { email: email },

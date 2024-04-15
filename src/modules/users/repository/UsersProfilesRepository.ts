@@ -6,6 +6,7 @@ interface UsersProfilesRepository extends Repository<UserProfile> {
   findUserByCpf(cpf: number): Promise<UserProfile>;
   findUserById(userId: string): Promise<UserProfile>;
   findUserByCnpj(cnpj: number):Promise<UserProfile>;
+  findUserByName(name: string): Promise<UserProfile>;
 }
 
 export default UsersProfilesRepository;

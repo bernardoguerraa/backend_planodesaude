@@ -4,7 +4,7 @@ import FilterController from "../controller/FilterController";
 
 const filterRoutes = Router();
 
-filterRoutes.post(
+filterRoutes.get(
   "/getBySpecialty",
   celebrate({
     [Segments.BODY]: Joi.object({
@@ -14,7 +14,7 @@ filterRoutes.post(
   FilterController.getBySpecialty
 );
 
-filterRoutes.post(
+filterRoutes.get(
   "/getProfileByEmail",
   celebrate({
     [Segments.BODY]: Joi.object({
@@ -22,5 +22,15 @@ filterRoutes.post(
     }),
   }),
   FilterController.getProfileByEmail
+);
+
+filterRoutes.get(
+  "/getProfileByName",
+  celebrate({
+    [Segments.BODY]: Joi.object({
+      name: Joi.string().required(),
+    }),
+  }),
+  FilterController.getClinicAndDoctorByName
 );
 export default filterRoutes;
