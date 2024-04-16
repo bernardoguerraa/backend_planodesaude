@@ -4,13 +4,13 @@ import UserProfile from "../../../../database/entities/UserProfile";
 import UsersProfilesRepository from "../../../users/repository/UsersProfilesRepository";
 import EntityPersistanceError from "../../../../shared/aplication/error/EntityPersistanceError";
 
-interface GetName {
-  name: string;
+interface GetClinicDoctorName {
+  clinicDoctorName: string;
 }
 
 @injectable()
 export class GetClinicAndDoctorByNameService
-  implements Service<GetName, UserProfile[]>
+  implements Service<GetClinicDoctorName, UserProfile[]>
 {
   private userProfileRepository: UsersProfilesRepository;
   
@@ -21,9 +21,11 @@ export class GetClinicAndDoctorByNameService
     this.userProfileRepository = userProfileRepository;
   }
   
-  async execute({ name }: GetName): Promise<UserProfile[]> {
-    
-    const existingProfile = await this.userProfileRepository.findUserByName(name);
+  async execute({
+    clinicDoctorName,
+  }: GetClinicDoctorName): Promise<UserProfile[]> {
+
+    const existingProfile = await this.userProfileRepository.findUserByName(clinicDoctorName);
 
     if (!existingProfile) {
         throw new EntityPersistanceError("A pesquisa não encontrou resultados");

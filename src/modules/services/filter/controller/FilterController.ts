@@ -38,13 +38,13 @@ export default class FilterController {
     request: Request,
     response: Response
   ): Promise<Response> {
-    const { name } = request.body;
+    const { clinicDoctorName } = request.body;
 
     const getProfileByName = container.resolve(
       GetClinicAndDoctorByNameService
     );
 
-    const profile = await getProfileByName.execute(name);
+    const profile = await getProfileByName.execute({clinicDoctorName});
 
     return response.status(200).json(profile);
   }

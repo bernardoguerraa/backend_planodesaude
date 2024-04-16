@@ -24,11 +24,11 @@ filterRoutes.get(
   FilterController.getProfileByEmail
 );
 
-filterRoutes.get(
+filterRoutes.post(
   "/getProfileByName",
   celebrate({
     [Segments.BODY]: Joi.object({
-      name: Joi.string().required(),
+      clinicDoctorName: Joi.string().required(),
     }),
   }),
   FilterController.getClinicAndDoctorByName
