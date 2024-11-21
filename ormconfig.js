@@ -1,22 +1,21 @@
-const DATABASE_URL = `postgres://postgres:${process.env.PSQL_PASSWORD}@${
-  process.env.PSQL_HOST
-}:${Number(process.env.PSQL_PORT)}/${process.env.PSQL_DB}`;
+import { DataSource } from 'typeorm';
 
-module.exports = [
-  {
-    name: 'default',
-    type: 'postgres',
-    url: process.env.DATABASE_URL || DATABASE_URL,
-    logging: false,
-    entities: [
-      process.env.TYPEORM_ENTITIES,
-    ],
-    migrations: [
-      process.env.TYPEORM_MIGRATIONS,
-    ],
-    cli: {
-      entitiesDir: process.env.TYPEORM_ENTITIES_DIR,
-      migrationsDir: process.env.TYPEORM_MIGRATIONS_DIR,
-    },
-  },
-];
+const AppDataSource = new DataSource({
+  type: 'postgres',
+  host: process.env.TYPEORM_HOST,
+  port: Number(process.env.TYPEORM_PORT),
+  username: process.env.TYPEORM_USERNAME,
+  password: process.env.TYPEORM_PASSWORD,
+  database: process.env.TYPEORM_DATABASE,
+  entities: [process.env.TYPEORM_ENTITIES],
+  migrations: [process.env.TYPEORM_MIGRATIONS],
+});
+
+// Crie a conexão
+AppDataSource.initialize()
+  .then(() => {
+    console.log("Conexão com o banco de dados estabelecida com sucesso.");
+  })
+  .catch((error) => {
+    console.error("Erro ao conectar ao banco de dados:", error);
+  });
