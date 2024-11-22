@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { getRepository } from "typeorm";
-import { Pagamento } from "../../../../database/entities/Payments"; 
+import { Pagamento } from "../../../../database/entities/Payments";
 const paymentService = require("../service/payment_service");
 
 export const pagamentoController = {
@@ -16,6 +16,9 @@ export const pagamentoController = {
         email,
         identificationType,
         identificationNumber,
+        address,
+        first_name,       // Adicionado
+        last_name,        // Adicionado
       } = req.body;
 
       // Validação dos campos obrigatórios
@@ -25,13 +28,15 @@ export const pagamentoController = {
         });
       }
 
-      // Se o pagamento for cartão, apenas com os campos necessários
+      // Configuração básica do pagamento
       const paymentData: any = {
         transaction_amount,
-        description: description || "Pagamento para plano de saúde", // default para a descrição
+        description: description || "Pagamento para plano de saúde",
         payment_method_id,
         payer: {
           email,
+          first_name,         // Adicionado
+          last_name,          // Adicionado
           identification: {
             type: identificationType,
             number: identificationNumber,
@@ -39,11 +44,29 @@ export const pagamentoController = {
         },
       };
 
-      // Se o método de pagamento for cartão, incluir os dados específicos do cartão
-      if (payment_method_id === 'credit_card') {
+      // Dados específicos para cartão de crédito
+      if (payment_method_id === "credit_card") {
         paymentData.token = token;
         paymentData.installments = installments;
         paymentData.issuer_id = issuer_id;
+      }
+
+      // Dados específicos para boleto
+      if (payment_method_id === "bolbradesco") {
+        if (!address || !address.zip_code) {
+          return res.status(400).json({
+            message: "Campos obrigatórios para pagamento com boleto ausentes. Verifique e tente novamente.",
+          });
+        }
+
+        paymentData.payer.address = {
+          zip_code: address.zip_code,
+          street_name: address.street_name,
+          street_number: address.street_number,
+          neighborhood: address.neighborhood,
+          city: address.city,
+          federal_unit: address.federal_unit,
+        };
       }
 
       // Chamando o serviço para processar o pagamento
@@ -51,9 +74,8 @@ export const pagamentoController = {
 
       // Tratando resposta do serviço
       if (paymentResult.success) {
-        // Salvando o pagamento no banco de dados
         const paymentRepository = getRepository(Pagamento);
-        
+
         const newPayment = paymentRepository.create({
           transaction_amount,
           description: paymentData.description,
@@ -83,3 +105,4 @@ export const pagamentoController = {
     }
   },
 };
+
