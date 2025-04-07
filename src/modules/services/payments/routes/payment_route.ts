@@ -1,8 +1,8 @@
-import { Router } from 'express';
-import { pagamentoController } from '../controller/payment_controller';
+import { Router } from "express";
+import PaymentController from "../controller/payment_controller";
 
 const router = Router();
 
-router.post('/pagamentos', pagamentoController.processar);
+router.post("/payments", PaymentController.processPayment);
 
 export default router;
